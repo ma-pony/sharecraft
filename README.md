@@ -2,6 +2,8 @@
 
 > A Claude Code skill that makes share-worthy **slide decks, posters/cards/images, and explainer videos** — by pairing best-in-class **local, zero-API** open-source tools with a real *"how to make a great share"* methodology.
 
+![Sharecraft — make shares worth sharing](examples/launch-card.png)
+
 Tools make output *fast*. They don't make it *good*. A pretty slide that buries its point, a card that's unreadable as a thumbnail, a 5-minute video that should've been 90 seconds — these all pass the "I used a nice tool" test and still fail the audience. **Sharecraft fixes the part the tools leave out**: it forces a short thinking pass (who's the audience, what's the one takeaway, where will this be consumed), then drives the right open-source tool to produce the artifact — and self-reviews it against the principles that make each medium land.
 
 ## What it does
@@ -13,6 +15,15 @@ When you ask Claude to make something shareable, Sharecraft kicks in and:
 3. **Learns from the best — the principle, not the look** — distills the underlying principles that 3Blue1Brown, Kurzgesagt, Fireship, TED, Tufte and others keep rediscovering, then invents an expression that fits *your* topic.
 4. **Sets up the tool and builds** — exact setup command, the minimal authoring loop, and how to export, for each integrated project.
 5. **Self-reviews** against the medium's checklist (one idea per slide, thumbnail-readable card, hook-in-3s video) before handing over.
+
+## Examples
+
+These were rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) — the same engine Sharecraft uses for cards and posters — from the hand-authored HTML in [`examples/`](examples/). One palette, one accent, thumbnail-readable: the methodology applied to itself.
+
+| Vertical poster / 小红书 (1080×1350) | Code card (1600×900) |
+|:---:|:---:|
+| [![First-principles poster](examples/principles-poster.png)](examples/principles-poster.html) | [![HTML→PNG code card](examples/code-card.png)](examples/code-card.html) |
+| *An infographic distilling the 7 first principles.* | *A code screenshot styled for a launch.* |
 
 ## Install
 

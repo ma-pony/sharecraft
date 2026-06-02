@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0E1116; --surface:#161A22; --line:#222836;
+    --fg:#F5F7FA; --muted:#8B95A7; --accent:#FF6B5B;
+    --sans:-apple-system,"SF Pro Display","Helvetica Neue","PingFang SC","Microsoft YaHei",Arial,sans-serif;
+    --mono:"SF Mono","JetBrains Mono","Fira Code",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1600px;height:900px}
+  body{
+    background:
+      radial-gradient(1200px 600px at 88% -10%, rgba(255,107,91,.16), transparent 60%),
+      radial-gradient(900px 700px at -8% 115%, rgba(86,120,255,.10), transparent 55%),
+      var(--bg);
+    color:var(--fg); font-family:var(--sans);
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:96px 110px;
+  }
+  .kicker{
+    font:600 22px/1 var(--mono); letter-spacing:.28em; color:var(--muted);
+    text-transform:uppercase; display:flex; align-items:center; gap:18px;
+  }
+  .kicker .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 22px var(--accent);}
+  .pain{margin-top:54px; font:500 30px/1.4 var(--sans); color:var(--muted);}
+  h1{margin-top:26px; font:800 132px/0.98 var(--sans); letter-spacing:-.03em;}
+  h1 .a{color:var(--accent);}
+  .sub{margin-top:34px; font:400 34px/1.5 var(--sans); color:#C7CEDB; max-width:1080px;}
+  .chips{margin-top:48px; display:flex; gap:18px;}
+  .chip{
+    font:600 27px/1 var(--sans); color:var(--fg);
+    background:var(--surface); border:1px solid var(--line);
+    padding:20px 30px; border-radius:999px; display:flex; align-items:center; gap:14px;
+  }
+  .chip b{color:var(--accent); font-weight:800;}
+  .foot{display:flex; align-items:center; justify-content:space-between;
+    border-top:1px solid var(--line); padding-top:34px;}
+  .foot .repo{font:600 30px/1 var(--mono); color:var(--fg);}
+  .foot .repo span{color:var(--muted);}
+  .foot .lic{font:600 24px/1 var(--mono); color:var(--muted); letter-spacing:.1em;}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="kicker"><span class="dot"></span>Open source · Claude Code skill</div>
+    <p class="pain">Tools make output <em>fast</em>. They don't make it <em>good</em>.</p>
+    <h1>Make shares<br>worth <span class="a">sharing.</span></h1>
+    <p class="sub">Decks, cards &amp; videos — built by best-in-class local open-source tools,
+      shaped by a real methodology for how a share actually lands.</p>
+    <div class="chips">
+      <div class="chip"><b>◧</b> Slides</div>
+      <div class="chip"><b>❖</b> Cards &amp; posters</div>
+      <div class="chip"><b>▶</b> Explainer video</div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="repo">github.com/ma-pony/<span>sharecraft</span></div>
+    <div class="lic">MIT · ZERO API KEYS</div>
+  </div>
+</body>
+</html>

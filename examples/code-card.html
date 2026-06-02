@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0E1116; --win:#11151D; --winbar:#1A1F2A; --line:#262D3B;
+    --fg:#E8ECF3; --muted:#7E8AA0; --accent:#FF6B5B;
+    --kw:#FF6B5B; --fn:#7BC8FF; --str:#7BE0A8; --num:#E5C07B; --com:#5A647A;
+    --mono:"SF Mono","JetBrains Mono","Fira Code",Menlo,Consolas,monospace;
+    --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1600px;height:900px}
+  body{
+    background:
+      radial-gradient(1100px 560px at 12% -12%, rgba(123,200,255,.10), transparent 60%),
+      radial-gradient(900px 600px at 100% 110%, rgba(255,107,91,.12), transparent 55%),
+      var(--bg);
+    color:var(--fg); font-family:var(--sans);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 120px;
+  }
+  .kicker{font:600 22px/1 var(--mono); letter-spacing:.24em; color:var(--muted);
+    text-transform:uppercase; margin-bottom:26px;}
+  .kicker b{color:var(--accent);}
+  .win{background:var(--win); border:1px solid var(--line); border-radius:18px;
+    overflow:hidden; box-shadow:0 40px 90px rgba(0,0,0,.45);}
+  .bar{height:64px; background:var(--winbar); display:flex; align-items:center;
+    gap:12px; padding:0 26px; border-bottom:1px solid var(--line);}
+  .bar .d{width:15px;height:15px;border-radius:50%}
+  .d.r{background:#FF5F57}.d.y{background:#FEBC2E}.d.g{background:#28C840}
+  .bar .name{margin-left:18px; font:600 22px/1 var(--mono); color:var(--muted);}
+  .code{padding:42px 48px; font:500 31px/1.7 var(--mono); white-space:pre;}
+  .com{color:var(--com)} .kw{color:var(--kw)} .fn{color:var(--fn)}
+  .str{color:var(--str)} .num{color:var(--num)} .op{color:var(--muted)}
+  .cap{margin-top:34px; font:400 28px/1.5 var(--sans); color:var(--muted);}
+  .cap b{color:var(--fg); font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="kicker">One bundled script · <b>HTML → PNG</b></div>
+  <div class="win">
+    <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span>
+      <span class="name">render a pixel-perfect card</span></div>
+    <div class="code"><span class="com"># design the card in HTML/CSS, then render it deterministically</span>
+<span class="kw">python</span> scripts/html_to_image.py card.html card.png <span class="op">\</span>
+       <span class="op">--width</span> <span class="num">1080</span> <span class="op">--height</span> <span class="num">1350</span> <span class="op">--scale</span> <span class="num">2</span>
+
+<span class="com"># → social cards · 公众号 covers · 小红书 carousels · infographics</span></div>
+  </div>
+  <p class="cap">Total control over the design, <b>pixel-perfect output</b>, no heavy app — and no API keys.</p>
+</body>
+</html>
