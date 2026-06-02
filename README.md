@@ -27,9 +27,21 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 | ![Title slide](examples/slides-deck.001.png) | ![Step 0 slide](examples/slides-deck.002.png) |
 | ![Emotion-first slide](examples/slides-deck.004.png) | ![Closing slide](examples/slides-deck.005.png) |
 
+**Named layout recipes in action** — the `SL01–SL10` recipes from [`slides.md`](references/slides.md) made real in one deck ([`slide-recipes.md`](examples/slide-recipes.md)); each slide is tagged with the recipe it uses:
+
+| SL04 · Data hero | SL05 · Two-column compare |
+|:---:|:---:|
+| ![SL04 data hero](examples/slide-recipes.003.png) | ![SL05 compare](examples/slide-recipes.004.png) |
+| **SL06 · Code spotlight** | **SL09 · Steps / flow** |
+| ![SL06 code spotlight](examples/slide-recipes.005.png) | ![SL09 steps](examples/slide-recipes.006.png) |
+
 **Terminal GIF** — recorded with [VHS](https://github.com/charmbracelet/vhs) from a reproducible script ([`terminal-demo.tape`](examples/terminal-demo.tape)). A clean, scripted flow under 15s:
 
 ![Terminal demo of the HTML→PNG engine](examples/terminal-demo.gif)
+
+**Explainer animation** — the `VS02→VS03→VS04` shot recipes from [`video.md`](references/video.md) (concrete first → morph to the general form → spotlight the insight), built in [Manim](https://www.manim.community/) ([`vs-concrete-to-abstract.py`](examples/vs-concrete-to-abstract.py)):
+
+![Manim explainer: concrete to abstract](examples/vs-concept-morph.gif)
 
 **Cards & posters** — hand-authored HTML rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) (the hero image at the top is the launch card; click any image for its source):
 
