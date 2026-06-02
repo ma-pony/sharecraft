@@ -1,15 +1,17 @@
 ---
 name: sharecraft
 description: >-
-  Craft high-quality shareable materials — slide decks, posters/cards/images, and explainer videos —
-  by combining best-in-class open-source tools (Slidev, Marp, markdown-to-image, poster-design,
-  Carbon, CodeImage, Remotion, Manim, VHS, etc.) AND applying a real "how to make a great share"
-  methodology (audience, narrative, information density, visual hierarchy). Use this whenever the
-  user wants to MAKE something to share: a tech talk deck, a WeChat/小红书/Twitter card or poster,
-  a code screenshot, an explainer/demo video, a terminal GIF, a launch graphic, a conference slide,
-  or "turn this into something I can share." Trigger even if the user names only the tool (e.g.
-  "make a Slidev deck", "generate a poster", "record a terminal GIF") or only the goal ("I need to
-  share this project nicely"). Tools are means; making the share land is the point.
+  Craft high-quality shareable materials — slide decks (幻灯片/PPT), posters/cards/covers, code
+  screenshots, infographics, and explainer/demo videos or GIFs — by combining best-in-class local
+  open-source tools (Slidev, Marp, markdown-to-image, poster-design, 文颜, Carbon, Remotion, Manim,
+  VHS, etc.) AND a real "how to make a great share" methodology (audience, the one takeaway,
+  narrative, visual hierarchy). Use whenever the user wants to MAKE or design something to share or
+  present: a deck / slides / PPT for a talk or 技术分享, a 公众号 / 小红书 / Twitter / 知乎 card, cover,
+  or poster, an article 排版 for a platform, a launch graphic or 封面图, a code screenshot, an
+  explainer or product-demo video, a terminal GIF, or a SET of matching pieces for one launch (cover
+  + video, or deck + card). Trigger even if the user names only the tool ("make a Slidev deck", "用
+  Manim 做动画") or only the goal ("做一套幻灯片", "I need a launch poster", "turn this into something I
+  can share"). Tools are means; making the share land is the point.
 ---
 
 # Sharecraft — 做出真正打动人的分享物料
