@@ -18,9 +18,22 @@ When you ask Claude to make something shareable, Sharecraft kicks in and:
 
 ## Examples
 
-These were rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) — the same engine Sharecraft uses for cards and posters — from the hand-authored HTML in [`examples/`](examples/). One palette, one accent, thumbnail-readable: the methodology applied to itself.
+Every artifact below was produced by the very tools Sharecraft drives — and shaped by its own methodology (one palette, a single accent, clear hierarchy, thumbnail-readable). All source files live in [`examples/`](examples/).
 
-| Vertical poster / 小红书 (1080×1350) | Code card (1600×900) |
+**Slides** — a [Marp](https://marp.app/) deck ([`slides-deck.md`](examples/slides-deck.md)) exported to PNG. Title states the takeaway, one idea per slide, the last slide is the ask:
+
+| | |
+|:---:|:---:|
+| ![Title slide](examples/slides-deck.001.png) | ![Step 0 slide](examples/slides-deck.002.png) |
+| ![Emotion-first slide](examples/slides-deck.004.png) | ![Closing slide](examples/slides-deck.005.png) |
+
+**Terminal GIF** — recorded with [VHS](https://github.com/charmbracelet/vhs) from a reproducible script ([`terminal-demo.tape`](examples/terminal-demo.tape)). A clean, scripted flow under 15s:
+
+![Terminal demo of the HTML→PNG engine](examples/terminal-demo.gif)
+
+**Cards & posters** — hand-authored HTML rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) (the hero image at the top is the launch card; click any image for its source):
+
+| Vertical poster · 小红书 (1080×1350) | Code card (1600×900) |
 |:---:|:---:|
 | [![First-principles poster](examples/principles-poster.png)](examples/principles-poster.html) | [![HTML→PNG code card](examples/code-card.png)](examples/code-card.html) |
 | *An infographic distilling the 7 first principles.* | *A code screenshot styled for a launch.* |
