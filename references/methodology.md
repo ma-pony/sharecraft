@@ -86,6 +86,8 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Code shown is minimal and highlighted to the line that matters (signaling).
 - [ ] A clear arc: hook → problem → insight/demo → how → call to action.
 - [ ] Consider the 10/20/30 discipline: ~10 slides, ~20 min — constraints force clarity.
+- [ ] Each slide uses a named layout recipe (SL01–SL10 in `slides.md`), not a one-off; the series has rhythm.
+- [ ] Density caps respected: ≤4 bullets, ≤6 elements, code ≤20 lines with ≤5 highlighted (`slides.md`).
 - [ ] Last slide = the one ask + where to find more (the memory anchor).
 
 ### Image / poster / card
@@ -106,6 +108,8 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Pacing: cut dead air. Aim short — most explainers are 2× too long.
 - [ ] Captions/subtitles burned in (most people watch muted).
 - [ ] Correct aspect ratio (16:9 horizontal, 9:16 vertical short).
+- [ ] Every beat names a shot recipe (VS01–VS10 in `video.md`); a beat with no recipe has no clear job.
+- [ ] No beat runs past ~45s without a cut (code walkthrough ≤90s); narration pace in range (`video.md`).
 - [ ] Ends with the action + handle/link (memory anchor).
 
 ## Common failure modes (and the fix)
