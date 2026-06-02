@@ -138,8 +138,9 @@ intuitive (built with Manim).*
   so the reader becomes the researcher. Let the system prove the point (procedural rhetoric).
 - **Distill.pub — interactive figures beside the claim** (hover-to-preview citations, highlight what the
   model attends to). *Note: on hiatus since 2021, but the back catalog is still the benchmark.*
-- Reach for it when: explaining how something works, ML/AI internals, interactive docs (build as an HTML
-  artifact — see the `frontend-design` / `web-artifacts-builder` skills).
+- Reach for it when: explaining how something works, ML/AI internals, interactive docs. **Produce it via
+  `references/interactive.md`** (the IH01–IH08 recipes turn this inspiration into a real, shippable
+  artifact); lean on `frontend-design` / `web-artifacts-builder` for the build.
 
 ## 技术插画与漫画 — Julia Evans · Maggie Appleton · Amelia Wattenberger
 

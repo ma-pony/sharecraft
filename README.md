@@ -1,6 +1,6 @@
 # Sharecraft
 
-> A Claude Code skill that makes share-worthy **slide decks, posters/cards/images, and explainer videos** — by pairing best-in-class **local, zero-API** open-source tools with a real *"how to make a great share"* methodology.
+> A Claude Code skill that makes share-worthy **slide decks, posters/cards/images, explainer videos, and interactive HTML** — by pairing best-in-class **local, zero-API** open-source tools with a real *"how to make a great share"* methodology.
 
 ![Sharecraft — make shares worth sharing](examples/launch-card.png)
 
@@ -43,6 +43,10 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 
 ![Manim explainer: concrete to abstract](examples/vs-concept-morph.gif)
 
+**Interactive HTML** — the `IH01` explorable recipe from [`interactive.md`](references/interactive.md): a self-contained, zero-API page where you *drag the sliders* and derive `Area = w × h` yourself (principle ⑥, active beats passive). Preview below; **[▶ open the live version](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html)** or read the [source](examples/explorable-area.html) (one file, opens offline):
+
+[![Interactive explorable: Area = w × h](examples/explorable-area.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html)
+
 **Cards & posters** — hand-authored HTML rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) (the hero image at the top is the launch card; click any image for its source):
 
 | Vertical poster · 小红书 (1080×1350) | Code card (1600×900) |
@@ -63,6 +67,7 @@ Then just ask Claude naturally — no command to remember:
 - *"Make a social card for this project"*
 - *"Turn this README into a talk deck"*
 - *"Explain this concept in a short video"*
+- *"Build an interactive explorable / dashboard for this"*
 - *"Beautiful screenshot of this code"*
 - *"Record a terminal GIF of the install flow"*
 
@@ -78,8 +83,9 @@ The skill triggers on the intent to **make something to share**, even if you onl
 | [`references/exemplars.md`](references/exemplars.md) | Learn from benchmarks → reverse to first principles → innovate. 7 underlying principles, then how each exemplar expressed them. |
 | [`references/slides.md`](references/slides.md) | Slidev, Marp, reveal.js, Pandoc, Patat, Impress.js. |
 | [`references/images.md`](references/images.md) | HTML→PNG engine, Satori, markdown-to-image, poster-design, 文颜, Carbon/CodeImage, Mermaid/Excalidraw/Draw.io. |
-| [`references/video.md`](references/video.md) | Remotion, Manim, Motion Canvas, VHS, asciinema+agg, OBS, ffmpeg. |
-| [`references/combine.md`](references/combine.md) | Chaining tools — one source of truth across deck + image + video. |
+| [`references/video.md`](references/video.md) | Remotion, Manim, Motion Canvas, VHS, asciinema+agg, OBS, ffmpeg; scene/shot recipes (VS01–VS10). |
+| [`references/interactive.md`](references/interactive.md) | Interactive HTML — explorables, dashboards, scrollytelling, live demos; recipes IH01–IH08, single-file & zero-API. |
+| [`references/combine.md`](references/combine.md) | Chaining tools — one source of truth across deck + image + video + explorable. |
 | [`scripts/html_to_image.py`](scripts/html_to_image.py) | Playwright-based HTML/CSS → PNG renderer — the universal card/poster/infographic engine. |
 
 ## The methodology, in one breath
@@ -91,6 +97,7 @@ Respect the audience's attention. Every element either earns its place by aiding
 - **Slides** — Slidev · Marp · reveal.js · Pandoc · Patat · Impress.js
 - **Images / posters / cards** — HTML→PNG (Playwright) · Satori · markdown-to-image · poster-design 迅排设计 · 文颜 wenyan · Carbon / ray.so / CodeImage · Excalidraw · Mermaid · Draw.io
 - **Video / GIF** — Remotion · Manim · Motion Canvas / MotionForge · VHS · asciinema + agg · OBS · ffmpeg
+- **Interactive HTML** — vanilla JS · D3 / Observable Plot / Chart.js · Three.js · GSAP / Motion One · Scrollama · Leaflet / MapLibre · CodeMirror / Sandpack · KaTeX / Mermaid
 
 Sharecraft deliberately avoids anything that needs a paid API or platform auth — everything runs on your machine.
 

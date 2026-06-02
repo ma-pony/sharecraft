@@ -45,6 +45,7 @@ video *and* a thumbnail. Plan the set, not just one piece.
 | Explain something with structure / a talk / walkthrough | Slides | `references/slides.md` |
 | One striking visual: social card, cover, poster, code shot, infographic | Image | `references/images.md` |
 | Show motion: concept animation, product demo, terminal flow | Video / GIF | `references/video.md` |
+| Let the audience **do** it: explore params, simulate, scroll a story, filter data | Interactive HTML | `references/interactive.md` |
 | Long-form article styled for a platform (公众号/知乎) | Styled doc | `references/images.md` (文颜/markdown-to-image) |
 
 Then check `references/combine.md` — the real power is chaining tools (e.g. one Mermaid diagram reused
@@ -83,6 +84,11 @@ Two load-bearing capabilities most recipes rely on — set these up once:
 - **Video / GIF**: Remotion (React, programmatic video), Manim (math/concept animation),
   Motion Canvas / MotionForge (programmatic motion), VHS (scripted terminal→GIF) / asciinema+agg
   (live terminal recording), OBS (screen recording), ffmpeg (trim/convert/caption — bundled `video-editor` skill).
+- **Interactive HTML** (explorables, dashboards, scrollytelling, demos, toys — the deliverable stays
+  live): vanilla HTML/CSS/JS as the base; D3 / Observable Plot / Chart.js (data), Three.js (3D),
+  GSAP / Motion One (animation), Scrollama (scrollytelling), Leaflet / MapLibre (maps),
+  CodeMirror / Sandpack (live code), KaTeX / Mermaid; bundled `web-artifacts-builder` for complex React
+  apps. Ship one self-contained file; host on GitHub Pages; preview via `html_to_image.py`. See `references/interactive.md`.
 
 All of the above run locally with **no external API keys**. Don't introduce a tool that needs a paid
 API or platform auth unless the user explicitly asks.

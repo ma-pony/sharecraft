@@ -112,6 +112,14 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] No beat runs past ~45s without a cut (code walkthrough ≤90s); narration pace in range (`video.md`).
 - [ ] Ends with the action + handle/link (memory anchor).
 
+### Interactive HTML
+- [ ] Opens from `file://` with no build/server/API key and works; self-contained (`interactive.md`).
+- [ ] The pre-interaction **default state already conveys the core message** — interaction deepens, doesn't gate it.
+- [ ] One primary interaction (IH01–IH08 in `interactive.md`); extras are progressively disclosed (principle ① subtract; ⑥ active>passive).
+- [ ] Controls have clear affordances, visible focus, ≥44px touch targets; responsive at 375px; keyboard-usable.
+- [ ] Respects `prefers-reduced-motion`; degrades to readable static content if JS fails.
+- [ ] The interaction serves the message — if a static image would say it as well, make the image.
+
 ## Common failure modes (and the fix)
 
 - **"I dumped everything in."** → One message; the rest becomes an appendix or a follow-up.

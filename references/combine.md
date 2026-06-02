@@ -44,6 +44,19 @@ Output set: deck (PDF) + launch card (PNG) + usage GIF + optional demo video —
 2. **Motion Canvas** or Remotion if the code needs to animate (diff reveal, step-through).
 3. Drop the code image into a Slidev slide and into the social card — same snippet, same theme.
 
+## Recipe 5 — Interactive explorable as the hub
+
+An interactive HTML piece (`interactive.md`) is a natural source of truth — build it once, harvest
+every other format from it:
+
+1. Build the **explorable** (IH01–IH08): one core interaction, brand palette, self-contained file.
+2. Render a striking default state to PNG with `html_to_image.py` → the **social card / README preview**
+   (feeds can't run HTML, so always ship a static preview + the live link).
+3. Screen-record someone driving the interaction (OBS) → trim to a **demo GIF/video** (`video.md`).
+4. Reuse its chart/diagram/palette in a **deck** and a **card** so the whole set matches.
+5. Host the file on **GitHub Pages** for a clickable link in the deck's last slide and the post.
+Output set: a live explorable + preview card + demo clip + deck — one build, every channel.
+
 ## Cross-tool asset flow (what feeds what)
 
 ```
