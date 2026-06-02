@@ -24,10 +24,12 @@ Output set: deck (PDF) + launch card (PNG) + usage GIF + optional demo video —
 
 1. **文颜 wenyan** typesets the Markdown into platform-ready HTML (`images.md`).
 2. **markdown-to-image** or HTML→PNG makes the in-article cards / a cover.
-3. For 小红书: produce a **carousel** — author one HTML template, swap the text per card, render each at
-   3:4 with `html_to_image.py` so the whole series is visually uniform.
-4. 公众号 cover: render the 2.35:1 banner + 1:1/3:4 square pair via HTML→PNG (see ratio table in
-   `methodology.md`). Templated HTML beats a niche tool here — you control the design and the output.
+3. For 小红书: produce a **carousel** — pick a layout recipe (XC01–XC08 in `images.md`), put each card
+   as a `#id` element in one HTML, render them all at 3:4 with `html_to_image.py --ids` so the series is
+   uniform in one fast pass. Run the 4-band density check on each vertical.
+4. 公众号 cover: render the **21:9 banner (2100×900) + 1:1 square (1080×1080)** pair from one HTML via
+   `--ids` (see `images.md`). The 1:1 is re-typeset with a shortened title, not a crop. Templated HTML
+   beats a niche tool here — you control the design and the output.
 
 ## Recipe 3 — Concept explainer (deck + video from the same script)
 

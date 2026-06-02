@@ -34,12 +34,44 @@ python scripts/html_to_image.py card.html card.png --width 1080 --height 1440   
 python scripts/html_to_image.py card.html card.png --width 1600 --height 900    # Twitter 16:9
 python scripts/html_to_image.py card.html card.png --selector "#card"           # crop to one element
 python scripts/html_to_image.py card.html card.png --width 1080 --full-page     # long image (公众号)
+python scripts/html_to_image.py deck.html out/ --ids cover p2 p3 p4 --width 1080 --height 1440
+                                                          # batch: one PNG per #id, single browser
+python scripts/html_to_image.py card.html card.png --wait-for-webgl 800          # canvas/grain bg
 ```
 Author `card.html` with the design principles from `methodology.md`: one focal point, ≤2 fonts, ≤1
 accent color, generous margins, large headline. Use web fonts via `@font-face` or system fonts. The
 bundled `frontend-design` and `canvas-design` skills are excellent for producing the HTML itself.
 
-## Satori (programmatic HTML/CSS → image, in code)
+**Batch a carousel/cover in one file.** Put every card as a sibling element with a unique `id`
+(`<section id="cover">…</section><section id="p2">…</section>`) in one HTML, then render them all with
+`--ids` — one browser session, consistent fonts/tokens, 5–8× faster than re-launching per card. If the
+design has a WebGL/grain/ink-wash background that renders a frame late, add `--wait-for-webgl 800` so it
+isn't captured blank.
+
+## Card layout recipes — pick a layout, then fill it (don't free-style every time)
+
+The #1 failure on 小红书/social cards is each card looking different and verticals coming out
+half-empty. Borrowed from how `guizang-social-card-skill` works: **choose a named layout first, then
+pour content into it.** A small set covers most needs — name them, honor their minimum density, and a
+series stays coherent. These are skeletons, not themes; apply your one accent + ≤2 fonts on top.
+
+| ID | Layout | Best for | Min density / rule |
+|----|--------|----------|--------------------|
+| **XC01** | Hero image + 1 headline overlay | covers, openers, single statement | image fills frame; headline ≤10 字; legible at 360px |
+| **XC02** | Headline + 2–4 key points | tips, takeaways, "N 个方法" | each point a short line + 1 detail; points fill ≥70% height |
+| **XC03** | Big number / data + label | stat, result, before→after | one number dominates; ≤6 字 caption; no chartjunk |
+| **XC04** | Pull-quote | quotes, manifestos, hooks | quote is the focal point; large type; attribution small |
+| **XC05** | Numbered steps / flow | how-to, process, 教程 | 3–5 steps; consistent step block; arrows/numbers signal order |
+| **XC06** | Image + text side-by-side | product, comparison, 图文 | image and text each own a column; aligned baseline |
+| **XC07** | Index / TOC opener | carousel page 1, "本文目录" | list of the cards to come; one accent per item |
+| **XC08** | Comparison table / grid | A vs B, feature matrix | ≤3 columns; Tufte (no chartjunk); cells breathe |
+
+**3:4 density rule (the 4-band test).** After rendering a 1080×1440 card, mentally split the height into
+four 360px bands. Each band must be either **Filled** (carries content) or **Justified empty** (a hero
+image breathing, a one-line manifesto, deliberate leading at the open/close). If any single band is
+**under-filled** (>15% ≈ >216px of unjustified blank), fix the *content*, don't pad with empty `flex:1`
+elements: enlarge line-height, add a marginalia column, expand a point, or switch to a denser recipe
+(e.g. XC01→XC02). Verticals that look "thin" almost always failed this test.
 
 Vercel's library that turns HTML/CSS (via JSX) into SVG (then PNG via resvg). Best for **batch /
 automated** generation — OG images, per-post covers, templated card series — where you want code, not
@@ -110,6 +142,62 @@ Choose a theme that matches the share's context; highlight only the lines that m
 - **Excalidraw** (`excalidraw/excalidraw`): hand-drawn-style whiteboard, great for approachable
   architecture sketches. Use excalidraw.com or self-host; export PNG/SVG.
 - **Draw.io / diagrams.net**: precise, full-featured general diagramming; self-hostable.
+
+## 中文排版规格 (Chinese typography for cards)
+
+`methodology.md` says "≤2 fonts, thumbnail-readable" — for Chinese cards that needs numbers. Sizes
+below assume a **1080px-wide** canvas; scale proportionally for other widths.
+
+**标题字号 by length (1080px wide).** Pick the size from the character count; if it won't fit, shorten
+the copy — don't shrink the type:
+
+| Headline shape | Size |
+|----------------|------|
+| 1 line, ≤6 字 | ~128px |
+| 1 line, 7–10 字 | ~104px |
+| 2 lines, ≤8 字/line | ~92px |
+| 2 lines, 9–12 字/line | ~80px |
+
+**Minimum readable sizes** (a phone downsamples the feed thumbnail, so floors matter):
+body/paragraph ≥28px · subtitle/lead ≥30px · label/caption ≥20px · data annotation ≥22px.
+
+**Font pairing (中英混排).** Title serif `Noto Serif SC` for editorial/magazine warmth, or sans
+`Noto Sans SC` for clean/Swiss; English in `Inter`; labels/code in `IBM Plex Mono` / `JetBrains Mono`.
+All on Google Fonts (`@font-face` or `<link>`), so they render under the Playwright engine. Keep it to
+**one Chinese family + one Latin family** per card. Let CJK line-breaks fall where they read well
+(don't break a 词 mid-way); pass the thumbnail test at 360px.
+
+## 公众号封面 Pair (21:9 + 1:1, from one file)
+
+WeChat's new cover wants **two** crops, and the 1:1 is NOT a center-crop of the banner. Always produce
+both, in one HTML, and render with `--ids`:
+
+- **Banner 21:9 → 2100×900** — the full layout (image + headline + optional kicker).
+- **Square 1:1 → 1080×1080** — re-typeset for the small slot: big centered title, **no** subtitle, not
+  a crop of the banner. It must read on its own at thumbnail size.
+
+```bash
+python scripts/html_to_image.py cover.html out/ --ids banner square --scale 2
+# (set each element's own box to 2100×900 and 1080×1080)
+```
+
+**Title-shortener for the 1:1** (long banner title → tight square title): ① drop adverbs/qualifiers →
+② keep verb + core noun → ③ aim for **4–8 字** → ④ no trailing ellipsis → ⑤ if still long, split the
+idea, don't shrink the font.
+
+## 没有图片时:先做一次 3 选 1 (image sourcing)
+
+If the card wants a photo and the user gave none, ask **once** (don't re-prompt):
+
+- **A — 你自己的图** (推荐,最不"AI 感"): a screenshot/photo they send.
+- **B — 我去免费图库找**: Pexels (`https://www.pexels.com/zh-cn/search/<中文关键词>/` — 中文关键词
+  effective for China scenes), Unsplash, or Openverse. Record each source URL in `assets/SOURCES.md`
+  and tell the user in the final reply so they can credit/verify license.
+- **C — AI 生成**: only if they prefer it; note it's AI-generated.
+
+When overlaying text on a photo: map the subject first (Read the image, note face/focal position as an
+HTML comment), compose **without** a mask, thumbnail-test at 360px, and add a tint **only if** it fails
+— and make the tint image-toned, not a full black gradient that flattens the photo.
 
 ## Finishing touches
 

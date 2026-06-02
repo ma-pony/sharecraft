@@ -94,6 +94,18 @@ medium (e.g. "one idea per slide", "card readable at thumbnail size", "video has
 the gaps. Then state plainly: what you made, where the file is, and one concrete suggestion to make
 it even better. Offer to produce the companion artifacts (the deck's launch card, the video's thumbnail).
 
+## Boundaries & non-negotiables
+
+A few hard rules keep output honest and on-scope:
+
+- **No external API keys / paid services** — every tool here runs locally. Don't reach for one that needs auth unless the user explicitly asks.
+- **Don't fake data, quotes, logos, or metrics.** A share that misrepresents loses trust fast. Source images get recorded (see `images.md`); credit when needed.
+- **Pick a layout, then fill it** — for cards/carousels use a named recipe (`images.md`), don't free-style every card; verticals must pass the 4-band density check.
+- **Honor the platform's real spec** — exact ratios/sizes from the `methodology.md` table (e.g. 公众号 cover = 21:9 + 1:1, re-typeset not cropped).
+- **Skim `methodology.md` before the final artifact**, and run the medium's checklist before handing over. That discipline is the skill.
+
+**Not this skill** (hand off instead): pure photo editing like background removal or retouching; generative AI *image* creation; trimming/compressing an existing video file (→ bundled `video-editor`); generating spreadsheets/Word/PDF docs (→ `xlsx`/`docx`/`pdf`). Sharecraft is for *making a share land*, not general file manipulation.
+
 ## Quick recipes (common asks)
 
 - **"Share this project nicely"** → README skim → a Slidev deck (overview→problem→demo→how it works→

@@ -14,11 +14,17 @@ Usage:
     python html_to_image.py card.html card.png --selector "#card"    # crop to one element's box
     python html_to_image.py card.html card.png --width 1080 --full-page   # long image (auto height)
     python html_to_image.py card.html card.png --scale 2             # 2x for retina-crisp output
+    python html_to_image.py deck.html out/ --ids cover page-2 page-3 # batch: one PNG per element id
+    python html_to_image.py card.html card.png --wait-for-webgl 800  # let a WebGL/canvas bg settle
 
 Notes:
     - Accepts a local file path or an http(s) URL as the input.
     - --selector overrides --full-page (it screenshots just that element).
     - --scale multiplies pixel density (device_scale_factor); use 2 for sharp text.
+    - --ids screenshots each #id into <output>/<id>.png in ONE browser session — far faster than
+      re-launching per card for a 小红书 carousel or a 公众号 cover pair. Here <output> is a directory.
+    - --wait-for-webgl adds to --wait; Editorial/grain/WebGL backgrounds often render a frame late and
+      come out blank without it. 700–900ms is usually enough.
 """
 import argparse
 import sys
@@ -34,7 +40,10 @@ def main() -> int:
     p.add_argument("--scale", type=float, default=2.0, help="Device scale factor (default 2 = retina)")
     p.add_argument("--selector", help="CSS selector to crop the screenshot to a single element")
     p.add_argument("--full-page", action="store_true", help="Capture full scrollable page (long image)")
+    p.add_argument("--ids", nargs="+", help="Element ids to screenshot individually into <output>/<id>.png")
     p.add_argument("--wait", type=int, default=300, help="Extra wait in ms after load (fonts/anim)")
+    p.add_argument("--wait-for-webgl", type=int, default=0, dest="wait_for_webgl",
+                   help="Extra wait in ms for a WebGL/canvas background to render (added to --wait)")
     args = p.parse_args()
 
     try:
@@ -57,7 +66,6 @@ def main() -> int:
         src = path.as_uri()
 
     out = Path(args.output)
-    out.parent.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
@@ -66,8 +74,27 @@ def main() -> int:
             device_scale_factor=args.scale,
         )
         page.goto(src, wait_until="networkidle")
-        page.wait_for_timeout(args.wait)
+        page.wait_for_timeout(args.wait + args.wait_for_webgl)
 
+        if args.ids:
+            # Batch mode: one PNG per element id, all in a single browser session.
+            out.mkdir(parents=True, exist_ok=True)
+            missing = []
+            for el_id in args.ids:
+                el = page.query_selector(f"#{el_id}")
+                if el is None:
+                    missing.append(el_id)
+                    continue
+                dest = out / f"{el_id}.png"
+                el.screenshot(path=str(dest))
+                print(f"Wrote {dest}")
+            browser.close()
+            if missing:
+                print(f"Ids not found: {', '.join(missing)}", file=sys.stderr)
+                return 1
+            return 0
+
+        out.parent.mkdir(parents=True, exist_ok=True)
         if args.selector:
             el = page.query_selector(args.selector)
             if el is None:

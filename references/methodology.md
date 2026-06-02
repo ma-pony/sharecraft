@@ -71,7 +71,7 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 | Slides (modern) | 16:9 | Default for talks/screens |
 | Twitter/X single image | 16:9 (1600×900) | Cropped to ~2:1 in feed — keep key content centered |
 | 小红书 / Instagram | 3:4 (1080×1440) or 1:1 | Vertical wins the feed |
-| 公众号 cover (new) | 2.35:1 banner + 1:1 square | Render both via HTML→PNG |
+| 公众号 cover (new) | 21:9 banner (2100×900) + 1:1 square (1080×1080) | Render both from one HTML via `--ids`; the 1:1 is re-typeset, not a crop. See `images.md` |
 | 公众号 in-body image | width 1080px | Height free; long-image OK |
 | YouTube thumbnail | 16:9 (1280×720) | Big face/text, high contrast |
 | Short video (Reels/抖音) | 9:16 | Vertical, captions burned in |
@@ -94,7 +94,10 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Correct aspect ratio for the target platform (table above).
 - [ ] ≤ 2 fonts, ≤ 1 accent color; generous whitespace; safe margins.
 - [ ] Charts follow Tufte: no chartjunk, data-ink maximized.
-- [ ] If it's a series (小红书 carousel), one consistent template across cards.
+- [ ] If it's a series (小红书 carousel), pick a named layout recipe and keep it consistent (`images.md`).
+- [ ] **3:4 density (4-band test)**: split the 1440px height into four 360px bands; each is Filled or
+      justified-empty. Fix any under-filled band by adding content, not empty spacers (`images.md`).
+- [ ] Chinese cards: headline size matches its 字数, body ≥28px, one CJK + one Latin family (`images.md`).
 
 ### Video / GIF
 - [ ] **Hook in the first 3 seconds** — show the payoff or pose the question immediately.
