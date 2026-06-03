@@ -63,6 +63,7 @@ mermaid.initialize({
   startOnLoad:false,
   look:'handDrawn',
   theme:'base',
+  flowchart:{ curve:'basis', useMaxWidth:true },   // smooth curves — never right-angle/elbow edges
   themeVariables:{
     background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
     primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', tertiaryColor:'#161A22',
@@ -70,6 +71,23 @@ mermaid.initialize({
   }
 });
 await mermaid.run();
+
+// Solid fills instead of rough's hachure: drop the thin hatch strokes, drop a solid
+// rounded rect behind each node. Keeps the wobbly hand-drawn outline + curved edges.
+const NS='http://www.w3.org/2000/svg';
+const FILL={io:'#1B2230', llm:'#26203a', core:'#16271f', out:'#2a2417'};
+document.querySelectorAll('g.rough-node').forEach(g=>{
+  const kind=['io','llm','core','out'].find(k=>g.classList.contains(k))||'io';
+  const bb=g.getBBox();
+  const shapes=[...g.querySelectorAll('path,polygon')];
+  const sw=s=>parseFloat((s.getAttribute('style')||'').match(/stroke-width:\s*([\d.]+)/)?.[1]||0);
+  shapes.forEach(s=>{ if(sw(s)>0 && sw(s)<=1.5) s.remove(); });   // hachure lines are the thin strokes
+  const r=document.createElementNS(NS,'rect');
+  r.setAttribute('x',bb.x); r.setAttribute('y',bb.y);
+  r.setAttribute('width',bb.width); r.setAttribute('height',bb.height);
+  r.setAttribute('rx',7); r.setAttribute('fill',FILL[kind]);
+  g.insertBefore(r, g.firstChild);
+});
 </script>
 </body>
 </html>

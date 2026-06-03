@@ -172,16 +172,35 @@ flowchart TD
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 mermaid.initialize({
   startOnLoad:false, look:'handDrawn', theme:'base',
+  flowchart:{ curve:'basis' },   // smooth curves — NO right-angle/elbow edges (no curve:'linear'/'step', no ELK)
   themeVariables:{ background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
     primaryTextColor:'#F5F7FA', lineColor:'#8B95A7',
     fontFamily:'"Segoe Print","Bradley Hand","Comic Sans MS",cursive' }
 });
 await mermaid.run();
+
+// Two taste fixes on rough's defaults → clean hand-drawn (wobbly outline + SOLID fill, curved edges):
+// drop the thin hachure strokes and drop a solid rounded rect behind each node.
+const NS='http://www.w3.org/2000/svg';
+const FILL={io:'#1B2230', llm:'#26203a', core:'#16271f', out:'#2a2417'};
+document.querySelectorAll('g.rough-node').forEach(g=>{
+  const kind=['io','llm','core','out'].find(k=>g.classList.contains(k))||'io';
+  const bb=g.getBBox();
+  const sw=s=>parseFloat((s.getAttribute('style')||'').match(/stroke-width:\s*([\d.]+)/)?.[1]||0);
+  g.querySelectorAll('path,polygon').forEach(s=>{ if(sw(s)>0 && sw(s)<=1.5) s.remove(); }); // hachure = thin strokes
+  const r=document.createElementNS(NS,'rect');
+  r.setAttribute('x',bb.x); r.setAttribute('y',bb.y); r.setAttribute('width',bb.width);
+  r.setAttribute('height',bb.height); r.setAttribute('rx',7); r.setAttribute('fill',FILL[kind]);
+  g.insertBefore(r, g.firstChild);
+});
 </script>
 ```
 
-Keep the **page chrome clean sans** (one reading measure, §2) and let only the *diagram* be sketchy — the
-contrast is the point, not a sketchy whole page.
+Two deliberate departures from rough's defaults, both because the defaults read as gimmicky: **smooth
+curved edges** (`curve:'basis'` — never right-angle/elbow routing) and **solid fills, no hachure**
+(the post-process above). The keepers are what actually signal "hand-drawn": the wobbly outline and the
+handwritten label font. Keep the **page chrome clean sans** (one reading measure, §2) and let only the
+*diagram* be sketchy — the contrast is the point, not a sketchy whole page.
 
 **When this isn't enough.** For a fully-offline artifact (no CDN) or a one-off you want pixel-control
 over, draw it by hand in **Excalidraw** or **draw.io** and export a PNG/SVG — manual, but reliable and
@@ -308,7 +327,7 @@ impeccable runs deterministic anti-pattern checks; these are ours.)
 
 - [ ] **One reading measure**, only `--measure` + `--wide` — no stray third width.
 - [ ] **Code**: desaturated strings, long lines wrap (not clipped), any highlight is whole-row and ≤3 lines; `pre code` reset so inline-code chips don't stripe the block.
-- [ ] **Flowchart**: directed edges with arrows; semantic node colors + legend; hand-drawn look (not the stiff default Mermaid), themed to tokens; never bare divs.
+- [ ] **Flowchart**: directed edges with arrows; semantic node colors + legend; hand-drawn look themed to tokens, with **smooth curved edges (no elbow/right-angle) and solid fills (no hachure)**; never bare divs / stiff default Mermaid.
 - [ ] No **CSS leak** (scoped styles), no **absolute/fixed-size fragility** (flex over absolute; content can grow), no **async race** (explicit ready + `--wait`). — the three families above.
 - [ ] Not everything is a card; no card-in-card; hierarchy is visible.
 - [ ] Type hierarchy has real contrast (not 14/15/16px muddied together); ≥1.2 ratio between steps.
