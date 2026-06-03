@@ -52,7 +52,7 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 
 ▶ live: [explorable](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html) · [scrollytelling](https://raw.githack.com/ma-pony/sharecraft/main/examples/scrolly-latency.html) · [chart](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-latency.html)
 
-**Flowchart component** — a zero-dependency inline-SVG flowchart from a small `flow(ranks, edges)` helper (the drop-in in [`design-system.md`](references/design-system.md) §4): real arrowed edges, equal-width nodes, color by category. The rule "*a flowchart needs directed edges*" only sticks when there's a component to render them — this is it:
+**Flowchart** — Mermaid in `look: 'handDrawn'`, themed to the tokens (the recipe in [`design-system.md`](references/design-system.md) §4): you write the graph as text, it auto-lays-out and routes the arrows, and the sketchy look sheds the stiff "generated" feel of default Mermaid — without hand-writing any SVG. Page chrome stays clean sans; only the diagram is hand-drawn:
 
 [![Flowchart component with directed edges](examples/flow-diagram.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/flow-diagram.html)
 

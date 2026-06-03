@@ -3,138 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Flowchart component — directed edges, zero deps | sharecraft</title>
+<title>Flowchart — hand-drawn, auto-laid-out | sharecraft</title>
 <style>
   :root{
-    --bg:#0E1116; --surface:#161A22; --surface-2:#1B2230; --line:#222836;
-    --fg:#F5F7FA; --ink:#C7CEDB; --muted:#8B95A7; --faint:#5A647A;
-    --accent:#FF6B5B; --green:#7BE0A8; --amber:#E5C07B; --blue:#7BC8FF; --purple:#C792EA;
+    --bg:#0E1116; --surface:#161A22; --line:#222836;
+    --fg:#F5F7FA; --muted:#8B95A7; --accent:#FF6B5B;
     --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
     --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
-    --measure:68ch; --wide:1120px;
-    --r:10px; --s4:16px; --s5:24px; --s6:32px;
+    --measure:68ch; --wide:1000px; --r:16px; --s4:16px; --s5:24px; --s6:32px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:radial-gradient(1000px 560px at 88% -12%,rgba(255,107,91,.12),transparent 60%),var(--bg);
-    color:var(--fg); font-family:var(--sans); line-height:1.7; padding:6vmin; display:flex; flex-direction:column; align-items:center;}
+    color:var(--fg); font-family:var(--sans); line-height:1.7; padding:6vmin;
+    display:flex; flex-direction:column; align-items:center;}
   .kicker{font:600 13px/1 var(--mono); letter-spacing:.22em; text-transform:uppercase; color:var(--accent);}
   h1{font-size:clamp(28px,4.4vw,42px); font-weight:800; letter-spacing:-.02em; margin:.3em 0 .2em;}
-  /* §2 — text rides the reading measure; the diagram is deliberate full-bleed */
+  /* page chrome is product-register (clean sans, one measure); only the diagram is hand-drawn */
   .col{width:min(var(--measure),100%);}
   .col p{color:var(--muted); font-size:clamp(15px,2.2vw,18px); margin:.2em 0;}
+  .col code{font-family:var(--mono); color:var(--accent); font-size:.92em;}
   .figure{width:min(var(--wide),100%); margin:var(--s6) 0 var(--s5);
-    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:var(--s6) var(--s4);}
-  /* flowchart component */
-  svg.flow{width:100%; height:auto; display:block; font-family:var(--mono);}
-  .flow .edge{fill:none; stroke:var(--muted); stroke-width:1.6;}
-  .flow .edge.dim{stroke:var(--faint); stroke-dasharray:5 5;}
-  .flow .elabel{fill:var(--muted); font-size:11px; font-family:var(--sans);}
-  .flow .node rect{rx:9; stroke-width:1.4;}
-  .flow .node .nm{fill:var(--fg); font-size:13px; font-weight:500;}
-  .flow .node .sub{fill:var(--muted); font-size:10.5px; font-family:var(--sans);}
-  .k-in   rect{fill:var(--surface-2); stroke:var(--line);}
-  .k-llm  rect{fill:rgba(199,146,234,.14); stroke:#9c6fd6;}
-  .k-core rect{fill:rgba(123,224,168,.12); stroke:#3f9e72;}
-  .k-io   rect{fill:var(--surface-2); stroke:var(--line);}
-  .k-out  rect{fill:rgba(229,192,123,.14); stroke:#b8923f;}
-  .legend{width:min(var(--wide),100%); display:flex; gap:20px; flex-wrap:wrap; font:500 12.5px/1 var(--sans); color:var(--muted);}
-  .legend .d{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:7px; vertical-align:-1px; border:1px solid;}
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:var(--s6) var(--s4);}
+  .mermaid{display:flex; justify-content:center;}
   footer{width:min(var(--wide),100%); margin-top:var(--s5); border-top:1px solid var(--line); padding-top:14px;
     display:flex; justify-content:space-between; color:var(--muted); font:600 12px/1 var(--mono);}
 </style>
 </head>
 <body>
   <div class="col">
-    <div class="kicker">● Component · directed flowchart</div>
-    <h1>A flowchart has <span style="color:var(--accent)">edges</span></h1>
-    <p>The text sits on one reading measure; the diagram is a deliberate full-bleed. The graph below is a
-      single zero-dependency inline SVG — equal-width nodes, real arrowheads, color by node category — built
-      from a small <code style="font-family:var(--mono);color:var(--green)">flow(ranks, edges)</code> helper.</p>
+    <div class="kicker">● Component · hand-drawn flowchart</div>
+    <h1>A flowchart, <span style="color:var(--accent)">hand-drawn</span></h1>
+    <p>Mermaid with <code>look:&nbsp;handDrawn</code> — you write the graph as text, it auto-lays-out the
+      nodes and routes the arrows, and renders sketchy via rough.js. No hand-written SVG coordinates, none
+      of the default Mermaid four-square stiffness. The page stays clean sans; only the diagram is sketchy.</p>
   </div>
 
   <div class="figure">
-    <svg id="flow" class="flow" role="img" aria-label="Orchestration flow: request to supervisor to specialists to output"></svg>
+    <pre class="mermaid">
+flowchart TD
+  REQ([Request]):::io --> SUP[supervisor<br/>route · decide]:::llm
+  SUP --> BAZI[bazi_master<br/>deterministic]:::core
+  SUP --> LIU[liuyao_master<br/>deterministic]:::core
+  SUP -->|needs info| END([end]):::io
+  BAZI --> OUT[output<br/>assemble · archive]:::out
+  LIU --> OUT
+  END -.done.-> OUT
+  classDef llm fill:#26203a,stroke:#9c6fd6,color:#F5F7FA;
+  classDef core fill:#16271f,stroke:#3f9e72,color:#F5F7FA;
+  classDef out fill:#2a2417,stroke:#b8923f,color:#F5F7FA;
+  classDef io fill:#1B2230,stroke:#3a4256,color:#F5F7FA;
+    </pre>
   </div>
-  <div class="legend">
-    <span><span class="d" style="background:rgba(199,146,234,.14);border-color:#9c6fd6"></span>LLM node</span>
-    <span><span class="d" style="background:rgba(123,224,168,.12);border-color:#3f9e72"></span>Deterministic</span>
-    <span><span class="d" style="background:rgba(229,192,123,.14);border-color:#b8923f"></span>Output</span>
-    <span><span class="d" style="background:var(--surface-2);border-color:var(--line)"></span>I/O</span>
-  </div>
-  <footer><span>sharecraft · flowchart component</span><span>zero deps · one inline SVG</span></footer>
+  <footer><span>sharecraft · flowchart (Mermaid look:handDrawn)</span><span>auto-layout · sketchy · brand-themed</span></footer>
 
-<script>
-  // ---- reusable directed-flowchart renderer (zero deps) -------------------
-  // ranks: array of rows; each row = array of {id,label,sub,kind}. edges: [from,to,label?,dim?]
-  const RANKS = [
-    [{id:'req', label:'Request', sub:'inbound', kind:'in'}],
-    [{id:'sup', label:'supervisor', sub:'route · decide', kind:'llm'}],
-    [{id:'bazi',label:'bazi_master', sub:'deterministic', kind:'core'},
-     {id:'liu', label:'liuyao_master',sub:'deterministic', kind:'core'},
-     {id:'end', label:'end', sub:'ask_more / decline', kind:'io'}],
-    [{id:'out', label:'output', sub:'assemble · archive', kind:'out'}],
-  ];
-  const EDGES = [
-    ['req','sup'], ['sup','bazi'], ['sup','liu'], ['sup','end','needs info'],
-    ['bazi','out'], ['liu','out'], ['end','out','done',true],
-  ];
-
-  const NS='http://www.w3.org/2000/svg';
-  const H=56, HGAP=30, VGAP=72, PAD=20;
-  function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
-
-  function flow(svg, ranks, edges){
-    // equal width for ALL nodes, sized to the longest label so nothing overflows (no fixed cap)
-    const longest = Math.max(...ranks.flat().map(n => (n.label||'').length));
-    const W = Math.max(150, Math.round(longest*8.6 + 28));
-    const rowW = ranks.map(r => r.length*W + (r.length-1)*HGAP);
-    const maxW = Math.max(...rowW);
-    const vbW = maxW + PAD*2, vbH = ranks.length*H + (ranks.length-1)*VGAP + PAD*2;
-    svg.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
-
-    // arrowhead marker
-    const defs = el('defs',{});
-    const mk = el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
-    mk.appendChild(el('path',{d:'M0,0 L10,5 L0,10 z',fill:'var(--muted)'}));
-    defs.appendChild(mk); svg.appendChild(defs);
-
-    // position every node, equal width, each rank centered
-    const pos={};
-    ranks.forEach((row,ri)=>{
-      const startX = PAD + (maxW - rowW[ri])/2;
-      const y = PAD + ri*(H+VGAP);
-      row.forEach((n,ci)=>{ pos[n.id] = {x:startX + ci*(W+HGAP), y, n}; });
-    });
-
-    // edges first (under nodes)
-    const eLayer = el('g',{}); svg.appendChild(eLayer);
-    edges.forEach(([from,to,label,dim])=>{
-      const s=pos[from], t=pos[to]; if(!s||!t) return;
-      const sx=s.x+W/2, tx=t.x+W/2;
-      let d, sy, ty;
-      if (t.y > s.y){ sy=s.y+H; ty=t.y; }      // forward (downward)
-      else { sy=s.y; ty=t.y+H; }                // back-edge (upward)
-      const my=(sy+ty)/2, r=9, dir=tx>sx?1:(tx<sx?-1:0);
-      // orthogonal (elbow) connector with rounded corners — the Stripe/Linear "engineered" look
-      d = dir===0
-        ? `M${sx},${sy} L${tx},${ty}`
-        : `M${sx},${sy} L${sx},${my-r} Q${sx},${my} ${sx+dir*r},${my} L${tx-dir*r},${my} Q${tx},${my} ${tx},${my+r} L${tx},${ty}`;
-      eLayer.appendChild(el('path',{class:'edge'+(dim?' dim':''),d,'marker-end':'url(#arrow)'}));
-      if(label){ eLayer.appendChild(Object.assign(el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4}),{textContent:label})); }
-    });
-
-    // nodes
-    ranks.flat().forEach(n=>{
-      const {x,y}=pos[n.id];
-      const g=el('g',{class:`node k-${n.kind}`});
-      g.appendChild(el('rect',{x,y,width:W,height:H}));
-      const nm=el('text',{class:'nm',x:x+W/2,y:y+(n.sub?22:32),'text-anchor':'middle'}); nm.textContent=n.label;
-      g.appendChild(nm);
-      if(n.sub){ const s=el('text',{class:'sub',x:x+W/2,y:y+38,'text-anchor':'middle'}); s.textContent=n.sub; g.appendChild(s); }
-      svg.appendChild(g);
-    });
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+// look:'handDrawn' + explicit run() (ESM import finishes after DOMContentLoaded, so startOnLoad would miss)
+mermaid.initialize({
+  startOnLoad:false,
+  look:'handDrawn',
+  theme:'base',
+  themeVariables:{
+    background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
+    primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', tertiaryColor:'#161A22',
+    fontFamily:'"Segoe Print","Bradley Hand","Comic Sans MS",cursive'
   }
-  flow(document.getElementById('flow'), RANKS, EDGES);
+});
+await mermaid.run();
 </script>
 </body>
 </html>

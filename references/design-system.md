@@ -135,94 +135,58 @@ inconsistent). Pick a renderer:
 
 ## 4. Diagrams & flowcharts
 
-A flowchart's whole job is showing **direction**. The most common failure (seen in real generated docs)
-is nodes stacked as bare `<div>`s with no edges, leaving the reader to guess the flow.
+A flowchart's whole job is showing **direction**. Two failure modes to avoid at once: nodes stacked as
+bare `<div>`s with no edges (no direction), and the default Mermaid/dagre look — evenly-spaced,
+intent-less, the four-square shape everyone's AI emits (generic). The fix kills both.
 
-- **A flowchart must have directed edges.** Real connecting lines with arrowheads; the direction reads
-  at a glance. Stacking boxes and hoping proximity implies order is not a flowchart.
-- **Same-rank nodes are the same width**, aligned on a grid. One color *per node category* (semantic,
-  not decorative) + a small legend. Kill chartjunk (Tufte): no 3D, no gradients on the boxes.
+- **Directed edges, always.** Real connecting lines with arrowheads; direction reads at a glance.
+- **One color *per node category*** (semantic, not decorative) + a small legend. Kill chartjunk (Tufte):
+  no 3D, no gradients on boxes.
 - A diagram is reusable across deck + card + video — author it once (`combine.md`).
-- **Connector style is the "designed vs generic" tell.** Soft beziers read casual; **orthogonal (elbow)
-  connectors with rounded corners** read engineered — the Stripe/Linear architecture-diagram look. The
-  component below uses orthogonal by default.
 
-**Why an auto-tool diagram looks "generic."** Mermaid/dagre auto-layout optimizes for *correct*, not
-*designed* — evenly spaced, no intent, the same shape everyone gets. Looking *intentional* means taking
-over the layout. The style spectrum, most-designed first:
+**Default — Mermaid in `look: 'handDrawn'`.** This is the rare case where Mermaid is the right answer:
+you write the graph as *text* (no hand-placed boxes, no SVG coordinate math — simple and hard to get
+wrong), Mermaid auto-lays-out the nodes and routes the arrows, and the **hand-drawn look** (rough.js
+under the hood) removes the stiff "generated" feel that makes default Mermaid look cheap. Sketchy reads
+as *intentional*, not lazy. Theme it to the tokens so it's on-brand. Working exemplar:
+[`examples/flow-diagram.html`](../examples/flow-diagram.html).
 
-1. **Hand-authored inline SVG, orthogonal edges** (Recipe A) — **the default for anything that ships.**
-   Most control, fits the tokens exactly, no CDN, can wire hover/interaction. Best for a polished,
-   precise architecture diagram (~10 nodes).
-2. **Mermaid** (Recipe B) — *quick internal sketches only.* It stays generated-looking even after
-   theming, and even with the ELK layout engine — **don't reach for Mermaid expecting polish.** If the
-   diagram ships, use Recipe A.
-3. **Hand-drawn (rough.js / Excalidraw)** — deliberately sketchy; a *brand-register* choice (§6) for
-   blogs/approachable decks, **not** for precise source-level technical docs.
-
-**Don't hand-place `<div>`s and hope.** Use one of two concrete renderers — both produce real arrowed
-edges. A rule with no component is why generated flowcharts regress to edgeless boxes.
-
-**Recipe A — zero-dependency inline SVG (default; stays single-file & offline).** Give it ranks (rows of
-nodes) + edges; it lays out equal-width nodes and draws arrowed paths. Full working component +
-exemplar: [`examples/flow-diagram.html`](../examples/flow-diagram.html) (rendered preview alongside).
-The core:
+It needs a CDN (so not fully offline) and renders async — **pass `--wait 2500`** to `html_to_image.py`,
+and use `startOnLoad:false` + `await mermaid.run()` (an ESM import finishes after DOMContentLoaded, so
+the `startOnLoad` hook would be missed and you'd capture raw source text).
 
 ```html
-<svg id="flow" class="flow"></svg>
-<style>
-  .flow .edge{fill:none;stroke:var(--muted);stroke-width:1.6}
-  .flow .edge.dim{stroke:var(--faint);stroke-dasharray:5 5}
-  .flow .node rect{rx:9;stroke-width:1.4}
-  .k-llm rect{fill:rgba(199,146,234,.14);stroke:#9c6fd6}   /* one fill per category */
-  .k-core rect{fill:rgba(123,224,168,.12);stroke:#3f9e72}
-</style>
-<script>
-const NS='http://www.w3.org/2000/svg',H=56,HGAP=30,VGAP=72,PAD=20;
-const el=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n};
-function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,kind}]], edges:[[from,to,label?,dim?]]
-  const W=Math.max(150,Math.round(Math.max(...ranks.flat().map(n=>(n.label||'').length))*8.6+28)); // equal width, fits longest label
-  const rowW=ranks.map(r=>r.length*W+(r.length-1)*HGAP), maxW=Math.max(...rowW);
-  svg.setAttribute('viewBox',`0 0 ${maxW+PAD*2} ${ranks.length*H+(ranks.length-1)*VGAP+PAD*2}`);
-  const defs=el('defs',{}),mk=el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
-  mk.appendChild(el('path',{d:'M0,0 L10,5 L0,10 z',fill:'var(--muted)'}));defs.appendChild(mk);svg.appendChild(defs);
-  const pos={};ranks.forEach((row,ri)=>{const sx=PAD+(maxW-rowW[ri])/2,y=PAD+ri*(H+VGAP);
-    row.forEach((n,ci)=>pos[n.id]={x:sx+ci*(W+HGAP),y,n})});
-  edges.forEach(([f,t,label,dim])=>{const s=pos[f],d=pos[t];if(!s||!d)return;
-    const sx=s.x+W/2,tx=d.x+W/2,sy=d.y>s.y?s.y+H:s.y,ty=d.y>s.y?d.y:d.y+H,my=(sy+ty)/2,r=9,dir=Math.sign(tx-sx);
-    // orthogonal (elbow) connector w/ rounded corners — the "engineered" Stripe/Linear look
-    const path=dir===0?`M${sx},${sy} L${tx},${ty}`
-      :`M${sx},${sy} L${sx},${my-r} Q${sx},${my} ${sx+dir*r},${my} L${tx-dir*r},${my} Q${tx},${my} ${tx},${my+r} L${tx},${ty}`;
-    svg.appendChild(el('path',{class:'edge'+(dim?' dim':''),d:path,'marker-end':'url(#arrow)'}));
-    if(label){const l=el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4});l.textContent=label;svg.appendChild(l)}});
-  ranks.flat().forEach(n=>{const{x,y}=pos[n.id],g=el('g',{class:`node k-${n.kind}`});
-    g.appendChild(el('rect',{x,y,width:W,height:H}));
-    const nm=el('text',{class:'nm',x:x+W/2,y:y+(n.sub?22:32),'text-anchor':'middle'});nm.textContent=n.label;g.appendChild(nm);
-    if(n.sub){const s=el('text',{class:'sub',x:x+W/2,y:y+38,'text-anchor':'middle'});s.textContent=n.sub;g.appendChild(s)}
-    svg.appendChild(g)})}
-</script>
-```
-
-**Recipe B — Mermaid (quick internal sketches only; needs a CDN, so not truly offline).** Fine for a
-throwaway diagram while you think; **if it ships, use Recipe A** — Mermaid stays generated-looking even
-after theming (and ELK doesn't fix it). It must run in the headless renderer, so **add `--wait 1200`**
-to `html_to_image.py`. Self-contained-ish:
-
-```html
+<pre class="mermaid">
+flowchart TD
+  REQ([Request]):::io --> SUP[supervisor<br/>route · decide]:::llm
+  SUP --> BAZI[bazi_master]:::core
+  SUP -->|needs info| END([end]):::io
+  BAZI --> OUT[output]:::out
+  END -.done.-> OUT
+  classDef llm  fill:#26203a,stroke:#9c6fd6,color:#F5F7FA;
+  classDef core fill:#16271f,stroke:#3f9e72,color:#F5F7FA;
+  classDef out  fill:#2a2417,stroke:#b8923f,color:#F5F7FA;
+  classDef io   fill:#1B2230,stroke:#3a4256,color:#F5F7FA;
+</pre>
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-// startOnLoad:false + explicit run() — an ESM import often finishes AFTER DOMContentLoaded,
-// so the startOnLoad hook is already missed and you'd get raw source text, not a diagram.
-mermaid.initialize({startOnLoad:false, theme:'base', themeVariables:{
-  background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
-  primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', fontFamily:'JetBrains Mono'}});
+mermaid.initialize({
+  startOnLoad:false, look:'handDrawn', theme:'base',
+  themeVariables:{ background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
+    primaryTextColor:'#F5F7FA', lineColor:'#8B95A7',
+    fontFamily:'"Segoe Print","Bradley Hand","Comic Sans MS",cursive' }
+});
 await mermaid.run();
 </script>
-<pre class="mermaid">flowchart TD
-  A[Request] --> B{Cache hit?}
-  B -- yes --> C[Return cached]
-  B -- no --> D[Query + store]</pre>
 ```
+
+Keep the **page chrome clean sans** (one reading measure, §2) and let only the *diagram* be sketchy — the
+contrast is the point, not a sketchy whole page.
+
+**When this isn't enough.** For a fully-offline artifact (no CDN) or a one-off you want pixel-control
+over, draw it by hand in **Excalidraw** or **draw.io** and export a PNG/SVG — manual, but reliable and
+on-style. (Don't hand-author a bespoke SVG layout engine — it's a lot of fiddly coordinate code that
+breaks on the next edit; the whole point of the handDrawn default is to *not* do that.)
 
 **Rendering note — let async visuals settle.** Anything built at runtime — JS-generated SVG (the flow
 component), Mermaid, highlight.js, KaTeX, a canvas chart — paints *after* first load. When flattening to
@@ -277,7 +241,7 @@ over **one** specific thing. Each type has an **override point** (the switch tha
 
 | Type | What the default hands you | Override point (where to take over) | Cheap tell (generic giveaway) |
 |------|----------------------------|--------------------------------------|-------------------------------|
-| Flowchart | auto-layout (Mermaid/dagre) | layout + orthogonal connectors (§4) | bezier/no arrows/bare divs |
+| Flowchart | the stiff default Mermaid/dagre look | hand-drawn look + semantic node colors (§4) | default four-square Mermaid / bare divs / no arrows |
 | Code block | the highlighter's stock theme | tokens, restrained; whole-row highlight (§3) | neon palette / striping / clipping |
 | Chart | the lib's default theme | axes, palette, data-ink (Tufte) | chartjunk / default color cycle |
 | Card / poster | auto-flow, everything centered | a layout motif + one reading measure (§2) | ragged widths / all-centered / no focal point |
@@ -311,7 +275,7 @@ impeccable runs deterministic anti-pattern checks; these are ours.)
 
 - [ ] **One reading measure**, only `--measure` + `--wide` — no stray third width.
 - [ ] **Code**: desaturated strings, long lines wrap (not clipped), any highlight is whole-row and ≤3 lines; `pre code` reset so inline-code chips don't stripe the block.
-- [ ] **Flowchart**: directed edges with arrows; same-rank nodes equal width; legend present; not bare divs; connectors via flex/layout, not `position:absolute`.
+- [ ] **Flowchart**: directed edges with arrows; semantic node colors + legend; hand-drawn look (not the stiff default Mermaid), themed to tokens; never bare divs.
 - [ ] No **CSS leak** (scoped styles), no **absolute/fixed-size fragility** (flex over absolute; content can grow), no **async race** (explicit ready + `--wait`). — the three families above.
 - [ ] Not everything is a card; no card-in-card; hierarchy is visible.
 - [ ] Type hierarchy has real contrast (not 14/15/16px muddied together); ≥1.2 ratio between steps.
