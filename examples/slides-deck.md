@@ -4,20 +4,20 @@ size: 16:9
 paginate: true
 style: |
   :root{
-    --bg:#0E1116; --surface:#161A22; --line:#222836;
-    --fg:#F5F7FA; --muted:#8B95A7; --accent:#FF6B5B;
+    --bg:#0B0E14; --surface:#141925; --line:#232A3A;
+    --fg:#ECEFF5; --muted:#8B95A7; --accent:#6E8BFF;
     --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
     --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
   }
   section{
-    background:#0E1116; color:var(--fg);
+    background:#0B0E14; color:var(--fg);
     font-family:var(--sans);
     padding:78px 92px; font-size:30px; line-height:1.5;
   }
   section.lead{
     background:
-      radial-gradient(1100px 600px at 88% -12%, rgba(255,107,91,.18), transparent 60%),
-      #0E1116;
+      radial-gradient(1100px 600px at 88% -12%, rgba(110,139,255,.18), transparent 60%),
+      #0B0E14;
     justify-content:center;
   }
   h1{font-size:84px; font-weight:800; letter-spacing:-.02em; line-height:1.02; margin:0; color:var(--fg) !important;}

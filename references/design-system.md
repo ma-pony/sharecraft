@@ -32,14 +32,14 @@ reach for these tokens so a deck, a card and an explorable read as siblings.
 ```css
 :root{
   /* surface / ink */
-  --bg:#0E1116; --surface:#161A22; --surface-2:#1B2230; --line:#222836;
-  --fg:#F5F7FA; --ink:#C7CEDB; --muted:#8B95A7; --faint:#5A647A;
+  --bg:#0B0E14; --surface:#141925; --surface-2:#1B2233; --line:#232A3A;
+  --fg:#ECEFF5; --ink:#C7CEDB; --muted:#8B95A7; --faint:#5A647A;
   /* one accent + two semantic signals (use sparingly) */
-  --accent:#FF6B5B; --green:#7BE0A8; --amber:#E5C07B; --blue:#7BC8FF;
+  --accent:#6E8BFF; --green:#7BE0A8; --amber:#E5C07B; --blue:#7BC8FF;
   /* code (tuned, low-saturation — see §3) */
   --code-bg:#11151D; --code-ink:#E8ECF3;
   --code-com:#6B7689;        /* comments: dim, recede */
-  --code-key:#FF8B7E;        /* keywords: one warm accent */
+  --code-key:#93A4FF;        /* keywords: the accent hue */
   --code-str:#9BD3B0;        /* strings: DESATURATED green, not neon */
   --code-num:#E5C07B; --code-fn:#7BC8FF;
   /* type */
@@ -83,7 +83,7 @@ that wanders out to 1080, a card stack somewhere between. Fix it with a hard rul
 Code appears in *every* medium (a card via Carbon/HTML, slide SL06, a video frame, an explorable). Same
 rules everywhere:
 
-- **Restrained syntax color.** Comments recede (`--code-com`), keywords get the *one* warm accent,
+- **Restrained syntax color.** Comments recede (`--code-com`), keywords get the *one* accent hue,
   strings are **desaturated** (`--code-str`) — never neon green that turns every string-heavy line into
   a zebra stripe. A reader should see structure, not a color riot.
 - **Never silently truncate a long line.** On the web, wrap: `white-space:pre-wrap;
@@ -106,7 +106,7 @@ pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font
 pre code{background:none;border:0;padding:0;color:inherit;font:inherit;}  /* see bullet below */
 .tok-com{color:var(--code-com)} .tok-key{color:var(--code-key)} .tok-str{color:var(--code-str)}
 .line-hl{display:block;margin:0 calc(-1*var(--s4));padding:0 var(--s4);
-    background:rgba(255,107,91,.10);border-left:3px solid var(--accent);}
+    background:rgba(110,139,255,.10);border-left:3px solid var(--accent);}
 ```
 
 **Actually coloring it — don't hand-tag spans.** Token colors are useless without something that emits
@@ -163,18 +163,18 @@ flowchart TD
   SUP -->|needs info| END([end]):::io
   BAZI --> OUT[output]:::out
   END -.done.-> OUT
-  classDef llm  fill:#26203a,stroke:#9c6fd6,color:#F5F7FA;
-  classDef core fill:#16271f,stroke:#3f9e72,color:#F5F7FA;
-  classDef out  fill:#2a2417,stroke:#b8923f,color:#F5F7FA;
-  classDef io   fill:#1B2230,stroke:#3a4256,color:#F5F7FA;
+  classDef llm  fill:#26203a,stroke:#9c6fd6,color:#ECEFF5;
+  classDef core fill:#16271f,stroke:#3f9e72,color:#ECEFF5;
+  classDef out  fill:#2a2417,stroke:#b8923f,color:#ECEFF5;
+  classDef io   fill:#1B2233,stroke:#3a4256,color:#ECEFF5;
 </pre>
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 mermaid.initialize({
   startOnLoad:false, look:'handDrawn', theme:'base',
   flowchart:{ curve:'basis' },   // smooth curves — NO right-angle/elbow edges (no curve:'linear'/'step', no ELK)
-  themeVariables:{ background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
-    primaryTextColor:'#F5F7FA', lineColor:'#8B95A7',
+  themeVariables:{ background:'#0B0E14', primaryColor:'#141925', primaryBorderColor:'#232A3A',
+    primaryTextColor:'#ECEFF5', lineColor:'#8B95A7',
     fontFamily:'"Segoe Print","Bradley Hand","Comic Sans MS",cursive' }
 });
 await mermaid.run();
@@ -182,7 +182,7 @@ await mermaid.run();
 // Two taste fixes on rough's defaults → clean hand-drawn (wobbly outline + SOLID fill, curved edges):
 // drop the thin hachure strokes and drop a solid rounded rect behind each node.
 const NS='http://www.w3.org/2000/svg';
-const FILL={io:'#1B2230', llm:'#26203a', core:'#16271f', out:'#2a2417'};
+const FILL={io:'#1B2233', llm:'#26203a', core:'#16271f', out:'#2a2417'};
 document.querySelectorAll('g.rough-node').forEach(g=>{
   const kind=['io','llm','core','out'].find(k=>g.classList.contains(k))||'io';
   const bb=g.getBBox();

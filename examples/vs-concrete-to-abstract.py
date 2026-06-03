@@ -4,14 +4,14 @@ form, then spotlight it. Render:
     manim -qm --format=gif --fps 30 examples/vs-concrete-to-abstract.py ConceptMorph
 
 Demonstrates the signature explainer move from video.md's shot recipes, in
-sharecraft's palette (deep ink + one coral accent).
+sharecraft's palette (deep ink + one indigo accent).
 """
 from manim import *
 
-BG = "#0E1116"
-FG = "#F5F7FA"
+BG = "#0B0E14"
+FG = "#ECEFF5"
 MUTED = "#8B95A7"
-ACCENT = "#FF6B5B"
+ACCENT = "#6E8BFF"
 
 
 class ConceptMorph(Scene):

@@ -6,14 +6,14 @@
 <title>Flowchart — hand-drawn, auto-laid-out | sharecraft</title>
 <style>
   :root{
-    --bg:#0E1116; --surface:#161A22; --line:#222836;
-    --fg:#F5F7FA; --muted:#8B95A7; --accent:#FF6B5B;
+    --bg:#0B0E14; --surface:#141925; --line:#232A3A;
+    --fg:#ECEFF5; --muted:#8B95A7; --accent:#6E8BFF;
     --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
     --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
     --measure:68ch; --wide:1000px; --r:16px; --s4:16px; --s5:24px; --s6:32px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:radial-gradient(1000px 560px at 88% -12%,rgba(255,107,91,.12),transparent 60%),var(--bg);
+  body{background:radial-gradient(1000px 560px at 88% -12%,rgba(110,139,255,.12),transparent 60%),var(--bg);
     color:var(--fg); font-family:var(--sans); line-height:1.7; padding:6vmin;
     display:flex; flex-direction:column; align-items:center;}
   .kicker{font:600 13px/1 var(--mono); letter-spacing:.22em; text-transform:uppercase; color:var(--accent);}
@@ -48,10 +48,10 @@ flowchart TD
   BAZI --> OUT[output<br/>assemble · archive]:::out
   LIU --> OUT
   END -.done.-> OUT
-  classDef llm fill:#26203a,stroke:#9c6fd6,color:#F5F7FA;
-  classDef core fill:#16271f,stroke:#3f9e72,color:#F5F7FA;
-  classDef out fill:#2a2417,stroke:#b8923f,color:#F5F7FA;
-  classDef io fill:#1B2230,stroke:#3a4256,color:#F5F7FA;
+  classDef llm fill:#26203a,stroke:#9c6fd6,color:#ECEFF5;
+  classDef core fill:#16271f,stroke:#3f9e72,color:#ECEFF5;
+  classDef out fill:#2a2417,stroke:#b8923f,color:#ECEFF5;
+  classDef io fill:#1B2233,stroke:#3a4256,color:#ECEFF5;
     </pre>
   </div>
   <footer><span>sharecraft · flowchart (Mermaid look:handDrawn)</span><span>auto-layout · sketchy · brand-themed</span></footer>
@@ -65,8 +65,8 @@ mermaid.initialize({
   theme:'base',
   flowchart:{ curve:'basis', useMaxWidth:true },   // smooth curves — never right-angle/elbow edges
   themeVariables:{
-    background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
-    primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', tertiaryColor:'#161A22',
+    background:'#0B0E14', primaryColor:'#141925', primaryBorderColor:'#232A3A',
+    primaryTextColor:'#ECEFF5', lineColor:'#8B95A7', tertiaryColor:'#141925',
     fontFamily:'"Segoe Print","Bradley Hand","Comic Sans MS",cursive'
   }
 });
@@ -75,7 +75,7 @@ await mermaid.run();
 // Solid fills instead of rough's hachure: drop the thin hatch strokes, drop a solid
 // rounded rect behind each node. Keeps the wobbly hand-drawn outline + curved edges.
 const NS='http://www.w3.org/2000/svg';
-const FILL={io:'#1B2230', llm:'#26203a', core:'#16271f', out:'#2a2417'};
+const FILL={io:'#1B2233', llm:'#26203a', core:'#16271f', out:'#2a2417'};
 document.querySelectorAll('g.rough-node').forEach(g=>{
   const kind=['io','llm','core','out'].find(k=>g.classList.contains(k))||'io';
   const bb=g.getBBox();
