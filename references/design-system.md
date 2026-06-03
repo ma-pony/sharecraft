@@ -267,6 +267,28 @@ reflex defaults.** Split by register:
   fourth in a real type catalog / reference. **House identity always wins** — when sharecraft's brand
   is already the point, keep it; don't second-guess a committed identity.
 
+### The override point — "designed" vs "default", per type
+
+The deepest reason output looks generic: **a default is built for everyone, so a default is invisible.**
+A tool's automatic mode (Mermaid's auto-layout, a chart lib's default theme, a slide template) optimizes
+for *correct*, not *designed* — it gives the shape everyone else gets. Looking intentional means taking
+over **one** specific thing. Each type has an **override point** (the switch that buys "designed") and a
+**cheap tell** (the giveaway that no one took it over). Find both; the self-check (§7) watches the tells.
+
+| Type | What the default hands you | Override point (where to take over) | Cheap tell (generic giveaway) |
+|------|----------------------------|--------------------------------------|-------------------------------|
+| Flowchart | auto-layout (Mermaid/dagre) | layout + orthogonal connectors (§4) | bezier/no arrows/bare divs |
+| Code block | the highlighter's stock theme | tokens, restrained; whole-row highlight (§3) | neon palette / striping / clipping |
+| Chart | the lib's default theme | axes, palette, data-ink (Tufte) | chartjunk / default color cycle |
+| Card / poster | auto-flow, everything centered | a layout motif + one reading measure (§2) | ragged widths / all-centered / no focal point |
+| Slides | the template theme | a named layout recipe + one-idea-per-slide | wall of text / stock theme / bullet wall |
+| Video | linear/default easing | eased motion + a 3s hook + framing | no hook / uniform pace / reading the captions |
+| Interactive | default control styling | default state teaches + one primary interaction | ten knobs / gimmick interaction |
+
+This is the same move every time — **don't ship the auto output; take over the one thing that makes it
+yours.** It's not "restyle everything" (that's the second monoculture again) — it's one deliberate
+override, in the register that calls for it.
+
 ## 7. Anti-pattern self-check (run before handing over)
 
 A quick critique pass — generate, then audit against this list and fix what trips. (Mirrors how
