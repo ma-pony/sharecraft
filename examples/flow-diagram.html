@@ -114,8 +114,11 @@
       let d, sy, ty;
       if (t.y > s.y){ sy=s.y+H; ty=t.y; }      // forward (downward)
       else { sy=s.y; ty=t.y+H; }                // back-edge (upward)
-      const my=(sy+ty)/2;
-      d=`M${sx},${sy} C${sx},${my} ${tx},${my} ${tx},${ty}`;
+      const my=(sy+ty)/2, r=9, dir=tx>sx?1:(tx<sx?-1:0);
+      // orthogonal (elbow) connector with rounded corners — the Stripe/Linear "engineered" look
+      d = dir===0
+        ? `M${sx},${sy} L${tx},${ty}`
+        : `M${sx},${sy} L${sx},${my-r} Q${sx},${my} ${sx+dir*r},${my} L${tx-dir*r},${my} Q${tx},${my} ${tx},${my+r} L${tx},${ty}`;
       eLayer.appendChild(el('path',{class:'edge'+(dim?' dim':''),d,'marker-end':'url(#arrow)'}));
       if(label){ eLayer.appendChild(Object.assign(el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4}),{textContent:label})); }
     });

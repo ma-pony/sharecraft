@@ -143,6 +143,21 @@ is nodes stacked as bare `<div>`s with no edges, leaving the reader to guess the
 - **Same-rank nodes are the same width**, aligned on a grid. One color *per node category* (semantic,
   not decorative) + a small legend. Kill chartjunk (Tufte): no 3D, no gradients on the boxes.
 - A diagram is reusable across deck + card + video — author it once (`combine.md`).
+- **Connector style is the "designed vs generic" tell.** Soft beziers read casual; **orthogonal (elbow)
+  connectors with rounded corners** read engineered — the Stripe/Linear architecture-diagram look. The
+  component below uses orthogonal by default.
+
+**Why an auto-tool diagram looks "generic."** Mermaid/dagre auto-layout optimizes for *correct*, not
+*designed* — evenly spaced, no intent, the same shape everyone gets. Looking *intentional* means taking
+over the layout. The style spectrum, most-designed first:
+
+1. **Hand-authored inline SVG, orthogonal edges** (Recipe A) — most control, fits the tokens exactly,
+   no CDN, can wire hover/interaction. Best for a polished, precise architecture diagram (~10 nodes).
+2. **Mermaid + the ELK layout engine** (Recipe B) — orthogonal routing, far tidier than the dagre
+   default; keeps Mermaid's ease while shedding most of the "generic" feel.
+3. **Mermaid default (dagre)** — fine for a quick internal sketch; expect the four-square look.
+4. **Hand-drawn (rough.js / Excalidraw)** — deliberately sketchy; a *brand-register* choice (§6) for
+   blogs/approachable decks, **not** for precise source-level technical docs.
 
 **Don't hand-place `<div>`s and hope.** Use one of two concrete renderers — both produce real arrowed
 edges. A rule with no component is why generated flowcharts regress to edgeless boxes.
@@ -173,8 +188,11 @@ function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,k
   const pos={};ranks.forEach((row,ri)=>{const sx=PAD+(maxW-rowW[ri])/2,y=PAD+ri*(H+VGAP);
     row.forEach((n,ci)=>pos[n.id]={x:sx+ci*(W+HGAP),y,n})});
   edges.forEach(([f,t,label,dim])=>{const s=pos[f],d=pos[t];if(!s||!d)return;
-    const sx=s.x+W/2,tx=d.x+W/2,sy=d.y>s.y?s.y+H:s.y,ty=d.y>s.y?d.y:d.y+H,my=(sy+ty)/2;
-    svg.appendChild(el('path',{class:'edge'+(dim?' dim':''),d:`M${sx},${sy} C${sx},${my} ${tx},${my} ${tx},${ty}`,'marker-end':'url(#arrow)'}));
+    const sx=s.x+W/2,tx=d.x+W/2,sy=d.y>s.y?s.y+H:s.y,ty=d.y>s.y?d.y:d.y+H,my=(sy+ty)/2,r=9,dir=Math.sign(tx-sx);
+    // orthogonal (elbow) connector w/ rounded corners — the "engineered" Stripe/Linear look
+    const path=dir===0?`M${sx},${sy} L${tx},${ty}`
+      :`M${sx},${sy} L${sx},${my-r} Q${sx},${my} ${sx+dir*r},${my} L${tx-dir*r},${my} Q${tx},${my} ${tx},${my+r} L${tx},${ty}`;
+    svg.appendChild(el('path',{class:'edge'+(dim?' dim':''),d:path,'marker-end':'url(#arrow)'}));
     if(label){const l=el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4});l.textContent=label;svg.appendChild(l)}});
   ranks.flat().forEach(n=>{const{x,y}=pos[n.id],g=el('g',{class:`node k-${n.kind}`});
     g.appendChild(el('rect',{x,y,width:W,height:H}));
@@ -186,7 +204,9 @@ function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,k
 
 **Recipe B — Mermaid (fast, but needs a CDN, so not truly offline).** Reach for it for quick internal
 diagrams. It must actually run in the headless renderer, so **add `--wait 1200`** to `html_to_image.py`
-(it renders async). Self-contained-ish:
+(it renders async). For a much tidier result than the default, switch to the **ELK layout engine**
+(orthogonal routing) — add `layout: elk` to the init theme or `%%{init:{"layout":"elk"}}%%` atop the
+graph. Self-contained-ish:
 
 ```html
 <script type="module">
