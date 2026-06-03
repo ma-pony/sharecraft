@@ -17,6 +17,19 @@ style: |
     background:radial-gradient(1100px 600px at 88% -12%, rgba(255,107,91,.18), transparent 60%),#0E1116;
     justify-content:center;
   }
+  /* SL03 full-bleed "scene": a colour field stands in for a photo; text rides the bottom */
+  section.scene{
+    background:linear-gradient(160deg,#1B2233 0%,#0E1116 58%),radial-gradient(820px 540px at 22% 18%, rgba(255,107,91,.30), transparent 60%);
+    justify-content:flex-end;
+  }
+  section.scene h1{font-size:88px;}
+  /* SL08 section break: number + chapter name, nothing else */
+  section.divider{justify-content:center;}
+  section.divider .chno{font:800 30px/1 var(--mono); letter-spacing:.24em; color:var(--accent);}
+  section.divider h1{margin-top:.1em;}
+  .quote{font-size:62px; font-weight:800; line-height:1.18; letter-spacing:-.01em; max-width:18ch;}
+  .quote .accent{font-style:italic;}
+  .cite{margin-top:.8em; font:600 24px/1 var(--mono); color:var(--muted);}
   h1{font-size:80px; font-weight:800; letter-spacing:-.02em; line-height:1.02; margin:0; color:var(--fg) !important;}
   h2{font-size:44px; font-weight:800; letter-spacing:-.01em; margin:0 0 .35em; color:var(--fg) !important;}
   .accent,strong,h1 strong,h2 strong{color:var(--accent) !important;}
@@ -62,6 +75,14 @@ footer: "sharecraft · slide layout recipes"
 - Detail lives in speaker notes, not here
 
 ---
+<!-- _class: scene -->
+<div class="tag">SL03 · Full-bleed image</div>
+
+# One scene,<br>one line of <span class="accent">meaning.</span>
+
+<p class="sub">A full-bleed image carries the feeling; keep text to ≤2 lines and contrast ≥4.5:1.</p>
+
+---
 <div class="tag">SL04 · Data hero</div>
 
 ## Caching cut database load
@@ -96,6 +117,24 @@ function handler(req) {
   return cache.set(key, query(req))
 }
 ```
+
+---
+<!-- _class: lead -->
+<div class="tag">SL07 · Pull quote</div>
+
+<p class="quote">"A slide is a <span class="accent">visual</span>, not a teleprompter."</p>
+
+<p class="cite">— the one rule behind every recipe here</p>
+
+---
+<!-- _class: divider -->
+<div class="tag">SL08 · Section break</div>
+
+<div style="text-align:center">
+<div class="chno">PART 02</div>
+
+# Putting it in motion
+</div>
 
 ---
 <div class="tag">SL09 · Steps / flow</div>

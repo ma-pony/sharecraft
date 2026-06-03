@@ -39,16 +39,16 @@
 </style>
 </head>
 <body>
-  <div class="kicker">One bundled script · <b>HTML → PNG</b></div>
+  <div class="kicker">One bundled script · <b>HTML → PNG, in batch</b></div>
   <div class="win">
     <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span>
-      <span class="name">render a pixel-perfect card</span></div>
-    <div class="code"><span class="com"># design the card in HTML/CSS, then render it deterministically</span>
-<span class="kw">python</span> scripts/html_to_image.py card.html card.png <span class="op">\</span>
-       <span class="op">--width</span> <span class="num">1080</span> <span class="op">--height</span> <span class="num">1350</span> <span class="op">--scale</span> <span class="num">2</span>
+      <span class="name">render a whole carousel in one pass</span></div>
+    <div class="code"><span class="com"># one HTML, many #id sections → one PNG each, single browser session</span>
+<span class="kw">python</span> scripts/html_to_image.py carousel.html out/ <span class="op">\</span>
+       <span class="op">--ids</span> cover p2 p3 p4 <span class="op">--width</span> <span class="num">1080</span> <span class="op">--height</span> <span class="num">1440</span> <span class="op">--scale</span> <span class="num">2</span>
 
-<span class="com"># → social cards · 公众号 covers · 小红书 carousels · infographics</span></div>
+<span class="com"># → 小红书 carousel · 公众号 cover pair · same tokens, 5× faster</span></div>
   </div>
-  <p class="cap">Total control over the design, <b>pixel-perfect output</b>, no heavy app — and no API keys.</p>
+  <p class="cap">One source file, every card — <b>consistent fonts &amp; tokens</b>, one browser session, no API keys.</p>
 </body>
 </html>
