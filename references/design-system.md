@@ -151,12 +151,13 @@ is nodes stacked as bare `<div>`s with no edges, leaving the reader to guess the
 *designed* — evenly spaced, no intent, the same shape everyone gets. Looking *intentional* means taking
 over the layout. The style spectrum, most-designed first:
 
-1. **Hand-authored inline SVG, orthogonal edges** (Recipe A) — most control, fits the tokens exactly,
-   no CDN, can wire hover/interaction. Best for a polished, precise architecture diagram (~10 nodes).
-2. **Mermaid + the ELK layout engine** (Recipe B) — orthogonal routing, far tidier than the dagre
-   default; keeps Mermaid's ease while shedding most of the "generic" feel.
-3. **Mermaid default (dagre)** — fine for a quick internal sketch; expect the four-square look.
-4. **Hand-drawn (rough.js / Excalidraw)** — deliberately sketchy; a *brand-register* choice (§6) for
+1. **Hand-authored inline SVG, orthogonal edges** (Recipe A) — **the default for anything that ships.**
+   Most control, fits the tokens exactly, no CDN, can wire hover/interaction. Best for a polished,
+   precise architecture diagram (~10 nodes).
+2. **Mermaid** (Recipe B) — *quick internal sketches only.* It stays generated-looking even after
+   theming, and even with the ELK layout engine — **don't reach for Mermaid expecting polish.** If the
+   diagram ships, use Recipe A.
+3. **Hand-drawn (rough.js / Excalidraw)** — deliberately sketchy; a *brand-register* choice (§6) for
    blogs/approachable decks, **not** for precise source-level technical docs.
 
 **Don't hand-place `<div>`s and hope.** Use one of two concrete renderers — both produce real arrowed
@@ -202,11 +203,10 @@ function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,k
 </script>
 ```
 
-**Recipe B — Mermaid (fast, but needs a CDN, so not truly offline).** Reach for it for quick internal
-diagrams. It must actually run in the headless renderer, so **add `--wait 1200`** to `html_to_image.py`
-(it renders async). For a much tidier result than the default, switch to the **ELK layout engine**
-(orthogonal routing) — add `layout: elk` to the init theme or `%%{init:{"layout":"elk"}}%%` atop the
-graph. Self-contained-ish:
+**Recipe B — Mermaid (quick internal sketches only; needs a CDN, so not truly offline).** Fine for a
+throwaway diagram while you think; **if it ships, use Recipe A** — Mermaid stays generated-looking even
+after theming (and ELK doesn't fix it). It must run in the headless renderer, so **add `--wait 1200`**
+to `html_to_image.py`. Self-contained-ish:
 
 ```html
 <script type="module">
