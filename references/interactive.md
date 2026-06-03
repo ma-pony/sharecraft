@@ -71,6 +71,25 @@ when it earns its weight, via a CDN `<script>` (or inline it for true offline):
 - Reuse assets across media: a Mermaid diagram, a palette, a chart can live in the explorable *and* a
   deck *and* a card (see `combine.md`).
 
+## Component specs — shared rules, plus what's HTML's own
+
+The universal visual rules — **one reading measure + deliberate full-bleed, restrained code blocks,
+flowcharts with real directed edges, the anti-pattern self-check** — live in `design-system.md` (§2–4,
+§7) because they apply to cards and slides too. Apply them here, and add the parts that are genuinely
+HTML's:
+
+- **Responsive measure.** Use the tokens fluidly: `width:min(var(--measure),100%)` for the reading
+  column, `width:min(var(--wide),100%)` for a chart/diagram; size type with the `clamp()` ramp so it
+  scales from 375px to desktop without a third hard-coded width creeping in.
+- **Code, interactive.** Wrapping (`white-space:pre-wrap`) matters more here than anywhere — there's no
+  fixed canvas to shorten to. If you offer click-to-highlight or run-this-line, build it on the
+  whole-row `.line-hl` pattern from `design-system.md` §3, not inline spans.
+- **Diagrams, interactive.** A draggable/zoomable/expandable graph still needs the §4 rules first:
+  directed edges with arrows, equal-width same-rank nodes, a legend. Interaction is layered *on* a
+  diagram that already reads statically — start from Mermaid or inline SVG, never bare `<div>`s.
+- **Two registers (design-system.md §6).** An explorable/dashboard/doc is the **product register** —
+  house tokens, no font-chasing. Only a brand-register landing-style page makes a signature move.
+
 ## Quantitative specs
 
 - **Time-to-interactive:** aim < ~2s on a laptop. Lazy-load heavy libs (Three.js, big datasets); don't
@@ -95,3 +114,7 @@ when it earns its weight, via a CDN `<script>` (or inline it for true offline):
 - [ ] Respects `prefers-reduced-motion`; degrades to readable static content if JS fails.
 - [ ] The interaction *serves the message* — it's not a gimmick. If a static image would say it as well,
       make the image instead.
+- [ ] **One reading measure** (`--measure`) + deliberate full-bleed only; no stray third width (`design-system.md` §2).
+- [ ] **Code blocks**: desaturated strings, long lines wrap (never clipped), any highlight whole-row & ≤3 lines (§3).
+- [ ] **Flowcharts**: directed edges with arrows, equal-width same-rank nodes, a legend — not bare `<div>`s (§4).
+- [ ] Ran the **anti-pattern self-check** in `design-system.md` §7 (no card-in-card, no per-section uppercase kicker, no reflex editorial-serif).

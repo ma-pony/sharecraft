@@ -33,7 +33,10 @@ Spend 30 seconds answering these out loud with the user. Most bad shares fail he
 
 If the user hasn't given enough to answer these, ask **one** tight clarifying question — then proceed.
 Then read `references/methodology.md` for the principles that make each medium land. **Always skim it
-before producing the final artifact** — it is what separates this skill from "just run a tool".
+before producing the final artifact** — it is what separates this skill from "just run a tool". For the
+concrete cross-medium *how* — width/measure, code-block style, directed-edge flowcharts, palette tokens,
+the two registers (product vs brand), and the anti-pattern self-check — read `references/design-system.md`;
+every medium pulls from that one contract so the output stays coherent and avoids the generic "AI look".
 
 ## Step 1 — Pick the medium (and feel free to combine)
 
@@ -103,9 +106,12 @@ API or platform auth unless the user explicitly asks.
 ## Step 3 — Self-review against the medium's checklist
 
 Before handing over, run the artifact against the checklist in `references/methodology.md` for its
-medium (e.g. "one idea per slide", "card readable at thumbnail size", "video has a hook in 3s"). Fix
-the gaps. Then state plainly: what you made, where the file is, and one concrete suggestion to make
-it even better. Offer to produce the companion artifacts (the deck's launch card, the video's thumbnail).
+medium (e.g. "one idea per slide", "card readable at thumbnail size", "video has a hook in 3s"), and —
+for anything with HTML, code, or a diagram — the **anti-pattern self-check** in `references/design-system.md`
+§7 (one reading measure, restrained code blocks, directed-edge flowcharts, no card-in-card, no generic
+"AI look"). Fix the gaps. Then state plainly: what you made, where the file is, and one concrete
+suggestion to make it even better. Offer to produce the companion artifacts (the deck's launch card, the
+video's thumbnail).
 
 ## Boundaries & non-negotiables
 

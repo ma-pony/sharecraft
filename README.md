@@ -98,6 +98,7 @@ The skill triggers on the intent to **make something to share**, even if you onl
 |------|----------------|
 | [`references/methodology.md`](references/methodology.md) | The soul — Duarte, Minto, Reynolds, Tufte, Mayer, the TED canon. Narrative arc, visual design, cognitive load, aspect-ratio table, per-medium checklists. |
 | [`references/exemplars.md`](references/exemplars.md) | Learn from benchmarks → reverse to first principles → innovate. 7 underlying principles, then how each exemplar expressed them. |
+| [`references/design-system.md`](references/design-system.md) | The shared visual contract every medium pulls from — tokens + copy-paste `:root`, one reading measure, code-block & flowchart specs, product-vs-brand registers, and the anti-pattern self-check. |
 | [`references/slides.md`](references/slides.md) | Slidev, Marp, reveal.js, Pandoc, Patat, Impress.js. |
 | [`references/images.md`](references/images.md) | HTML→PNG engine, Satori, markdown-to-image, poster-design, 文颜, Carbon/CodeImage, Mermaid/Excalidraw/Draw.io. |
 | [`references/video.md`](references/video.md) | Remotion, Manim, Motion Canvas, VHS, asciinema+agg, OBS, ffmpeg; scene/shot recipes (VS01–VS10). |

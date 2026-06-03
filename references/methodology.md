@@ -46,6 +46,17 @@ thing said is what sticks, so end on your one line or your one ask — never "ok
 - **Signal attention (Mayer's signaling).** Use arrows, highlight, bold, contrast to guide the eye to
   the one thing that matters. Don't assume the viewer will find it.
 
+## The shared visual contract (cross-medium)
+
+The principles above are *why*; the concrete, reusable *how* lives in **`design-system.md`** — the one
+contract every medium pulls from so a deck, a card, a video frame and an explorable read as siblings.
+It fixes the details that otherwise get re-decided (badly) every time: **one reading measure (60–75
+chars) + deliberate full-bleed, restrained code blocks (desaturated strings, lines wrap not clipped,
+whole-row highlight ≤3 lines), flowcharts with real directed edges (Mermaid/SVG, never bare divs), and
+no card-in-card.** It also sets the **two registers** — *product* (docs/dashboards/explainers: house
+tokens, don't chase distinctiveness) vs *brand* (cards/posters/covers: make one deliberate signature
+move) — and the **anti-pattern self-check** to run before handing over. Read it alongside this file.
+
 ## Information density & cognitive load (Mayer's multimedia principles)
 
 - **Redundancy kills.** Spoken narration + visual = effective dual channel. Spoken + on-screen *full
@@ -88,6 +99,7 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Consider the 10/20/30 discipline: ~10 slides, ~20 min — constraints force clarity.
 - [ ] Each slide uses a named layout recipe (SL01–SL10 in `slides.md`), not a one-off; the series has rhythm.
 - [ ] Density caps respected: ≤4 bullets, ≤6 elements, code ≤20 lines with ≤5 highlighted (`slides.md`).
+- [ ] Code/flowchart slides follow the shared contract: restrained syntax color, directed-edge diagrams (`design-system.md` §3–4).
 - [ ] Last slide = the one ask + where to find more (the memory anchor).
 
 ### Image / poster / card
@@ -100,6 +112,8 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] **3:4 density (4-band test)**: split the 1440px height into four 360px bands; each is Filled or
       justified-empty. Fix any under-filled band by adding content, not empty spacers (`images.md`).
 - [ ] Chinese cards: headline size matches its 字数, body ≥28px, one CJK + one Latin family (`images.md`).
+- [ ] Code cards & diagrams follow the shared contract (`design-system.md` §3–4); ran the §7 anti-pattern check.
+- [ ] Brand-register piece makes **one** deliberate signature move; not the reflex defaults (`design-system.md` §6).
 
 ### Video / GIF
 - [ ] **Hook in the first 3 seconds** — show the payoff or pose the question immediately.
@@ -111,6 +125,7 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Every beat names a shot recipe (VS01–VS10 in `video.md`); a beat with no recipe has no clear job.
 - [ ] No beat runs past ~45s without a cut (code walkthrough ≤90s); narration pace in range (`video.md`).
 - [ ] Ends with the action + handle/link (memory anchor).
+- [ ] Code/diagram frames follow the shared contract: restrained syntax color, directed-edge flowcharts (`design-system.md` §3–4).
 
 ### Interactive HTML
 - [ ] Opens from `file://` with no build/server/API key and works; self-contained (`interactive.md`).
@@ -119,6 +134,7 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - [ ] Controls have clear affordances, visible focus, ≥44px touch targets; responsive at 375px; keyboard-usable.
 - [ ] Respects `prefers-reduced-motion`; degrades to readable static content if JS fails.
 - [ ] The interaction serves the message — if a static image would say it as well, make the image.
+- [ ] One reading measure + deliberate full-bleed; code wraps & is restrained; flowcharts have directed edges; ran the `design-system.md` §7 anti-pattern check.
 
 ## Common failure modes (and the fix)
 

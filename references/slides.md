@@ -3,7 +3,9 @@
 Pick by audience: **Slidev** for developer/technical talks (code, live demos, animations), **Marp**
 for fast lightweight decks that export clean PDF/PPTX, **reveal.js** for a fully custom web deck.
 Apply `methodology.md` → Slides checklist before finalizing. The deck's quality is the narrative arc,
-not the theme.
+not the theme. For the cross-medium visual rules — code-block style, directed-edge flowcharts, palette
+tokens, the anti-pattern check — follow **`design-system.md`** (§3–4, §7); this file adds only the
+slide-specific recipes and density caps.
 
 ## Slidev (recommended for technical sharing)
 

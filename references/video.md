@@ -2,7 +2,8 @@
 
 Video is the highest-effort medium — script first, animate second. Apply `methodology.md` → Video
 checklist (hook in 3s, one point per scene, captions burned in, short). Pick the tool by what you're
-showing.
+showing. For code/diagram frames, follow the shared visual contract in **`design-system.md`** (§3–4):
+restrained syntax color, directed-edge flowcharts, palette tokens.
 
 ## Decision guide
 

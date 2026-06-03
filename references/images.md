@@ -2,7 +2,10 @@
 
 Pick the tool by what the image *is*. Always set the aspect ratio first (see `methodology.md` table)
 and run the image/poster checklist before handing over. The thumbnail test is the gate: if the core
-message isn't legible at feed size, it's not done.
+message isn't legible at feed size, it's not done. Cross-medium visual rules — code-block style,
+directed-edge diagrams, palette tokens, the two registers, the anti-pattern check — live in
+**`design-system.md`** (§3–4, §6–7); this file adds only what's image-specific (ratios, 4-band density,
+中文 type scale, image sourcing).
 
 ## Decision guide
 
