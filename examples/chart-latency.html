@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive chart — latency over time | sharecraft IH03</title>
+<style>
+  :root{
+    --bg:#0E1116; --surface:#161A22; --line:#222836; --grid:#1b2230;
+    --fg:#F5F7FA; --muted:#8B95A7; --accent:#FF6B5B; --green:#7BE0A8;
+    --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh; background:
+      radial-gradient(1000px 560px at 90% -12%, rgba(255,107,91,.14), transparent 60%), var(--bg);
+    color:var(--fg); font-family:var(--sans); display:flex; align-items:center; justify-content:center; padding:5vmin;}
+  .wrap{width:min(820px,100%);}
+  .kicker{font:600 14px/1 var(--mono); letter-spacing:.24em; text-transform:uppercase; color:var(--accent);}
+  h1{font-size:clamp(26px,4.6vw,44px); font-weight:800; letter-spacing:-.02em; margin:.3em 0 .15em;}
+  .lead{color:var(--muted); font-size:clamp(15px,2.3vw,19px); max-width:600px;}
+  .panel{margin-top:26px; background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:26px 26px 18px; position:relative;}
+  .legend{display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
+  .chip{display:inline-flex; align-items:center; gap:9px; background:var(--bg); border:1px solid var(--line); color:var(--fg); border-radius:999px; padding:9px 16px; font:600 14px/1 var(--sans); cursor:pointer;}
+  .chip .dot{width:12px; height:12px; border-radius:50%;}
+  .chip[aria-pressed="false"]{opacity:.4; text-decoration:line-through;}
+  .chip:focus-visible{outline:none; box-shadow:0 0 0 3px rgba(255,107,91,.4);}
+  svg{width:100%; height:auto; display:block; overflow:visible;}
+  .gridline{stroke:var(--grid); stroke-width:1;}
+  .axislab{fill:var(--muted); font:500 13px/1 var(--mono);}
+  .series-line{fill:none; stroke-width:3; stroke-linejoin:round; stroke-linecap:round;}
+  .pt{cursor:pointer; transition:r .12s;}
+  .tip{position:absolute; pointer-events:none; opacity:0; transform:translate(-50%,-115%); background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:8px 12px; font:600 13px/1.4 var(--sans); white-space:nowrap; transition:opacity .12s; box-shadow:0 8px 30px rgba(0,0,0,.5);}
+  .tip .v{font-size:18px;} .tip .m{color:var(--muted); font:500 12px/1 var(--mono);}
+  .hint{margin-top:14px; color:var(--muted); font-size:14px;}
+  .hint b{color:var(--fg); font-weight:600;}
+  footer{margin-top:24px; border-top:1px solid var(--line); padding-top:16px; display:flex; justify-content:space-between; color:var(--muted); font:600 13px/1 var(--mono);}
+  @media (prefers-reduced-motion: reduce){ .pt,.tip{transition:none;} }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="kicker">● Interactive · IH03 chart</div>
+    <h1>p99 latency, before vs after cache</h1>
+    <p class="lead">Hover any point for the exact value; click a legend chip to toggle a series. The lone
+      spike is the deploy that emptied a cold cache — the rest of the story is in the scrollytelling demo.</p>
+
+    <div class="panel">
+      <div class="legend" id="legend"></div>
+      <svg id="chart" viewBox="0 0 640 320" role="img" aria-label="Line chart of p99 latency over six months">
+        <g id="grid"></g><g id="xlabels"></g><g id="lines"></g><g id="points"></g>
+      </svg>
+      <div class="tip" id="tip"></div>
+      <p class="hint">Try toggling <b>Without cache</b> off to read the after-curve on its own.</p>
+    </div>
+
+    <footer><span>sharecraft · interactive recipe IH03</span><span>open offline · zero API keys</span></footer>
+  </main>
+
+<script>
+  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
+  const SERIES = [
+    { key:'without', name:'Without cache', color:'var(--accent)', data:[780,800,760,820,790,805] },
+    { key:'with',    name:'With cache',    color:'var(--green)',  data:[300,240,210,460,220,190] },
+  ];
+  const W=640, H=320, PAD={l:54,r:18,t:18,b:40}, MAXY=900;
+  const ix = i => PAD.l + i*(W-PAD.l-PAD.r)/(months.length-1);
+  const iy = v => PAD.t + (1 - v/MAXY)*(H-PAD.t-PAD.b);
+  const NS='http://www.w3.org/2000/svg';
+  const $ = id => document.getElementById(id);
+  const tip = $('tip'), panel = document.querySelector('.panel');
+  const visible = { without:true, with:true };
+
+  function el(tag, attrs){ const n=document.createElementNS(NS,tag); for(const k in attrs) n.setAttribute(k,attrs[k]); return n; }
+
+  // gridlines + y labels
+  [0,300,600,900].forEach(v=>{
+    $('grid').appendChild(el('line',{class:'gridline',x1:PAD.l,x2:W-PAD.r,y1:iy(v),y2:iy(v)}));
+    const t=el('text',{class:'axislab',x:PAD.l-10,y:iy(v)+4,'text-anchor':'end'}); t.textContent=v; $('grid').appendChild(t);
+  });
+  months.forEach((m,i)=>{ const t=el('text',{class:'axislab',x:ix(i),y:H-PAD.b+22,'text-anchor':'middle'}); t.textContent=m; $('xlabels').appendChild(t); });
+
+  function draw(){
+    $('lines').innerHTML=''; $('points').innerHTML='';
+    SERIES.forEach(s=>{
+      if(!visible[s.key]) return;
+      const d = s.data.map((v,i)=>`${i?'L':'M'}${ix(i)},${iy(v)}`).join(' ');
+      $('lines').appendChild(el('path',{class:'series-line',d,stroke:s.color}));
+      s.data.forEach((v,i)=>{
+        const c=el('circle',{class:'pt',cx:ix(i),cy:iy(v),r:5,fill:s.color,tabindex:0,role:'img','aria-label':`${s.name} ${months[i]}: ${v}ms`});
+        const show=()=>{ c.setAttribute('r',8);
+          tip.innerHTML=`<div class="v" style="color:${s.color}">${v}<small style="color:var(--muted)">ms</small></div><div class="m">${s.name} · ${months[i]}</div>`;
+          const rect=panel.getBoundingClientRect();
+          tip.style.left=(ix(i)/W*rect.width)+'px';
+          tip.style.top=(iy(v)/H*(rect.width*H/W))+(parseFloat(getComputedStyle(panel).paddingTop)+ (panel.querySelector('.legend').offsetHeight)+14)+'px';
+          tip.style.opacity=1; };
+        const hide=()=>{ c.setAttribute('r',5); tip.style.opacity=0; };
+        c.addEventListener('mouseenter',show); c.addEventListener('mousemove',show);
+        c.addEventListener('mouseleave',hide); c.addEventListener('focus',show); c.addEventListener('blur',hide);
+        $('points').appendChild(c);
+      });
+    });
+  }
+
+  // legend
+  SERIES.forEach(s=>{
+    const b=document.createElement('button'); b.className='chip'; b.setAttribute('aria-pressed','true');
+    b.innerHTML=`<span class="dot" style="background:${s.color}"></span>${s.name}`;
+    b.addEventListener('click',()=>{ visible[s.key]=!visible[s.key]; b.setAttribute('aria-pressed',String(visible[s.key])); draw(); });
+    $('legend').appendChild(b);
+  });
+  draw();
+</script>
+</body>
+</html>

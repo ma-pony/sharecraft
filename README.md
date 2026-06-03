@@ -43,9 +43,14 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 
 ![Manim explainer: concrete to abstract](examples/vs-concept-morph.gif)
 
-**Interactive HTML** — the `IH01` explorable recipe from [`interactive.md`](references/interactive.md): a self-contained, zero-API page where you *drag the sliders* and derive `Area = w × h` yourself (principle ⑥, active beats passive). Preview below; **[▶ open the live version](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html)** or read the [source](examples/explorable-area.html) (one file, opens offline):
+**Interactive HTML** — three of the `IH01–IH08` recipes from [`interactive.md`](references/interactive.md), each a self-contained, zero-API single file (hand-drawn SVG, no CDN) that opens straight in a browser. They put principle ⑥ to work — *active beats passive*: you drive the artifact instead of watching it. Click a preview for the **live** version, or read the source:
 
-[![Interactive explorable: Area = w × h](examples/explorable-area.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html)
+| IH01 · Explorable | IH02 · Scrollytelling | IH03 · Interactive chart |
+|:---:|:---:|:---:|
+| [![Explorable: Area = w × h](examples/explorable-area.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html) | [![Scrollytelling: a caching story](examples/scrolly-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/scrolly-latency.html) | [![Interactive chart: latency over time](examples/chart-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-latency.html) |
+| *Drag the sliders, derive `Area = w × h` yourself.* [source](examples/explorable-area.html) | *Scroll; the pinned figure changes one thing per step (800ms → 190ms).* [source](examples/scrolly-latency.html) | *Hover points for exact values, click the legend to toggle a series.* [source](examples/chart-latency.html) |
+
+▶ live: [explorable](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html) · [scrollytelling](https://raw.githack.com/ma-pony/sharecraft/main/examples/scrolly-latency.html) · [chart](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-latency.html)
 
 **Cards & posters** — hand-authored HTML rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) (the hero image at the top is the launch card; click any image for its source):
 
