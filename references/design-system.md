@@ -133,7 +133,7 @@ inconsistent). Pick a renderer:
 - **Guaranteed-offline single file** → pre-highlight at author time (Shiki in a build step, or generate
   the `.tok-*` markup once) and inline the result — no runtime lib. Use the `.tok-*` classes above.
 
-## 4. Diagrams & flowcharts
+## 4. Diagrams, flowcharts & charts
 
 A flowchart's whole job is showing **direction**. Two failure modes to avoid at once: nodes stacked as
 bare `<div>`s with no edges (no direction), and the default Mermaid/dagre look — evenly-spaced,
@@ -188,8 +188,33 @@ over, draw it by hand in **Excalidraw** or **draw.io** and export a PNG/SVG — 
 on-style. (Don't hand-author a bespoke SVG layout engine — it's a lot of fiddly coordinate code that
 breaks on the next edit; the whole point of the handDrawn default is to *not* do that.)
 
-**Rendering note — let async visuals settle.** Anything built at runtime — JS-generated SVG (the flow
-component), Mermaid, highlight.js, KaTeX, a canvas chart — paints *after* first load. When flattening to
+### Charts
+
+Same lesson as flowcharts: **don't plot SVG paths by hand** (that's re-authoring the engine — coordinate
+math, axes, tooltips, all by hand, all fragile). Let a chart library do the hard part and **override its
+theme** to kill the generic default look (stock color cycle, heavy gridlines).
+
+- **Default — a library + a brand-theme override.** Chart.js / Observable Plot / ECharts. The override
+  *is* the override point: brand colors from the tokens, faint or no gridlines (data-ink, Tufte),
+  mono ticks, point-style legend. Canvas renders async → `--wait` + `animation:false` for a clean PNG.
+
+```js
+const c = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+new Chart(canvas, { type:'line', data:{ /* … */ }, options:{
+  animation:false,
+  plugins:{ legend:{ labels:{ color:c('--fg'), usePointStyle:true, boxWidth:8 } } },
+  scales:{ y:{ grid:{color:'rgba(255,255,255,.05)'}, border:{display:false},
+               ticks:{color:c('--muted'), font:{family:c('--mono')}} },
+           x:{ grid:{display:false}, ticks:{color:c('--muted'), font:{family:c('--mono')}} } }
+}});  // series borderColor: var(--accent) / var(--green)
+```
+
+- **Zero-dep fallback** — for a *tiny, static* chart in a must-be-offline single file, a small hand-rolled
+  SVG is acceptable (see [`examples/chart-latency.html`](../examples/chart-latency.html)). It's the
+  exception, not the default: the moment it needs axes/tooltips/multiple series, switch to a library.
+
+**Rendering note — let async visuals settle.** Anything built at runtime — Mermaid, highlight.js, KaTeX,
+a canvas chart — paints *after* first load. When flattening to
 PNG with `html_to_image.py`, pass `--wait 800`–`1200` (or `--wait-for-webgl` for canvas/WebGL) or you'll
 capture a blank. Web fonts (e.g. `Noto Sans SC` via Google Fonts) need network at render time; for a
 guaranteed-offline artifact, self-host/inline the font or fall back to the system stack.
@@ -252,6 +277,14 @@ over **one** specific thing. Each type has an **override point** (the switch tha
 This is the same move every time — **don't ship the auto output; take over the one thing that makes it
 yours.** It's not "restyle everything" (that's the second monoculture again) — it's one deliberate
 override, in the register that calls for it.
+
+**Take over the *look*, not the *engine* — pick the lightest override that works.** The override point is
+almost always a **style switch on the tool**, not a from-scratch reimplementation. Let the tool keep
+doing the hard part (layout, axes, tooltips, routing) and just change its appearance: Mermaid
+`look:'handDrawn'` instead of hand-writing SVG node layout; a Chart.js theme override instead of plotting
+SVG paths yourself; a Slidev/Marp theme instead of a from-zero reveal.js deck. Re-authoring the engine by
+hand is the trap — more work, more bugs, rarely better. If you find yourself computing coordinates or
+re-implementing what a library already does, you've over-reached: step back to the style switch.
 
 ## 7. Anti-pattern self-check (run before handing over)
 
