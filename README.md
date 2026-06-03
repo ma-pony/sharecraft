@@ -61,11 +61,23 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 
 ## Install
 
-This is a [Claude Code](https://claude.ai/code) skill. Clone it into your skills directory:
+This is a [Claude Code](https://claude.ai/code) skill. Clone it, then run **one** setup command:
 
 ```bash
 git clone https://github.com/ma-pony/sharecraft.git ~/.claude/skills/sharecraft
+cd ~/.claude/skills/sharecraft && ./setup.sh
 ```
+
+`setup.sh` builds a **fully self-contained, local** toolchain: the `.venv` *and* the chromium browser both live **inside the skill folder** — nothing touches your system Python, your global `npm`, or `~/.cache`. **To uninstall, just delete the folder** (or run `./setup.sh --clean`). It uses [`uv`](https://github.com/astral-sh/uv) if present and falls back to the standard `venv` otherwise.
+
+It's layered, so the default stays light. The core covers cards, posters, infographics and interactive-HTML previews; slide tools run via `npx` (no install), and the heavier media tools are opt-in:
+
+| Command | Adds |
+|---|---|
+| `./setup.sh` | **Core** — the HTML→PNG engine (Playwright + a folder-local chromium) |
+| `./setup.sh --video` | Manim + a venv-local ffmpeg — concept animations & GIFs (no `brew install ffmpeg`) |
+| `./setup.sh --terminal` | VHS — scripted terminal GIFs |
+| `./setup.sh --all` | everything above |
 
 Then just ask Claude naturally — no command to remember:
 
@@ -108,11 +120,11 @@ Sharecraft deliberately avoids anything that needs a paid API or platform auth �
 
 ## The HTML→PNG helper
 
-The one bundled script renders any HTML/CSS to a pixel-perfect PNG — ideal for social cards, 公众号 covers, 小红书 carousels, and infographics:
+The one bundled script renders any HTML/CSS to a pixel-perfect PNG — ideal for social cards, 公众号 covers, 小红书 carousels, and infographics. After `./setup.sh`, invoke it with the skill-local interpreter (it finds the folder-local chromium automatically):
 
 ```bash
-pip install -r scripts/requirements.txt && playwright install chromium
-python scripts/html_to_image.py card.html card.png --width 1080 --height 1350 --scale 2
+.venv/bin/python scripts/html_to_image.py card.html card.png --width 1080 --height 1350 --scale 2
+.venv/bin/python scripts/html_to_image.py deck.html out/ --ids cover p2 p3 --width 1080 --height 1440   # batch a carousel
 ```
 
 ## Credits

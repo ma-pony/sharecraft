@@ -67,11 +67,18 @@ user already has; otherwise install on demand and tell the user what you're inst
 
 Two load-bearing capabilities most recipes rely on — set these up once:
 
-- **HTML/CSS → PNG** (the universal image/poster engine): a Playwright-based renderer. See
-  `scripts/html_to_image.py`. This is how cards, posters, and infographics get pixel-perfect output
-  without a heavy app.
+- **HTML/CSS → PNG** (the universal image/poster engine): a Playwright-based renderer,
+  `scripts/html_to_image.py` — how cards, posters, infographics and interactive previews get
+  pixel-perfect output without a heavy app. Install everything **locally** with the bundled
+  `./setup.sh` (creates a skill-folder `.venv` + a folder-local chromium — nothing global; uninstall =
+  delete the folder). Then always invoke via the skill-local interpreter so it finds that chromium:
+  `"$SKILL_DIR/.venv/bin/python" scripts/html_to_image.py …`. If `.venv` is missing, run `./setup.sh`
+  first. The installer is **layered** — core is the renderer; `./setup.sh --video` adds Manim + a
+  venv-local ffmpeg, `./setup.sh --terminal` adds VHS. Install a layer only when the chosen medium
+  needs it, and tell the user what you're adding.
 - **A package manager**: most projects are Node (`pnpm`/`npm`) or Python (`pip`/`uv`). Detect what's
-  available before assuming.
+  available before assuming. Prefer `npx` for Node slide tools (no global install) and the skill's
+  `.venv` for Python tools, so the user's environment stays clean.
 
 ### Tool map (what to reach for)
 

@@ -16,6 +16,10 @@ dist/
 .idea/
 .vscode/
 
+# Skill-local toolchain installed by setup.sh (uninstall = delete the folder)
+.cache/
+.bin/
+
 # Local rendering output / scratch
 output/
 out/

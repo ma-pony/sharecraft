@@ -1,0 +1,8 @@
+# Optional "video" layer for sharecraft — concept/explainer animations.
+# Installed into the skill-local .venv (never globally) by:
+#     ./setup.sh --video
+#
+# imageio-ffmpeg ships a static ffmpeg binary *inside the venv*, so terminal GIFs
+# and video exports work without `brew install ffmpeg` polluting the system.
+manim>=0.18
+imageio-ffmpeg>=0.5

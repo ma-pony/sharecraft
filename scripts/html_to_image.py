@@ -5,8 +5,11 @@ Why this exists: hand-authored HTML/CSS gives total control over a share's visua
 it deterministically to a PNG is the fastest path to a pixel-perfect poster, social card, code image, or
 infographic — without standing up a heavy app. Many sharecraft recipes lean on this.
 
-Setup (once):
-    pip install playwright && playwright install chromium
+Setup (once): run the bundled installer — builds a local .venv + local chromium,
+nothing global, uninstall by deleting the skill folder:
+    ./setup.sh
+Then invoke with the skill-local interpreter:
+    .venv/bin/python scripts/html_to_image.py card.html card.png
 
 Usage:
     python html_to_image.py card.html card.png                       # default 1080x1350
@@ -27,8 +30,17 @@ Notes:
       come out blank without it. 700–900ms is usually enough.
 """
 import argparse
+import os
 import sys
 from pathlib import Path
+
+# Prefer the skill-local browser cache (where setup.sh installs chromium) so the
+# bundled browser is found without ever touching ~/.cache. Only redirect when that
+# local cache exists — otherwise leave Playwright's normal default intact. An
+# explicit PLAYWRIGHT_BROWSERS_PATH in the environment always wins.
+_local_browsers = Path(__file__).resolve().parent.parent / ".cache" / "ms-playwright"
+if _local_browsers.is_dir():
+    os.environ.setdefault("PLAYWRIGHT_BROWSERS_PATH", str(_local_browsers))
 
 
 def main() -> int:
@@ -50,8 +62,11 @@ def main() -> int:
         from playwright.sync_api import sync_playwright
     except ImportError:
         print(
-            "Playwright is not installed. Run:\n"
-            "    pip install playwright && playwright install chromium",
+            "Playwright is not installed in this environment.\n"
+            "Run the bundled installer once (creates a local .venv + chromium, nothing global):\n"
+            "    ./setup.sh\n"
+            "then invoke this script with the skill-local interpreter:\n"
+            "    .venv/bin/python scripts/html_to_image.py ...",
             file=sys.stderr,
         )
         return 1

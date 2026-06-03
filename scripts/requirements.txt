@@ -1,3 +1,7 @@
-# Dependency for scripts/html_to_image.py (HTML/CSS → PNG renderer).
-# Install:  pip install -r scripts/requirements.txt && playwright install chromium
+# Core dependency for sharecraft's bundled HTML/CSS → PNG renderer
+# (scripts/html_to_image.py). This is the only always-needed library.
+#
+# Don't pip-install this globally — run the bundled installer instead, which puts
+# it (and chromium) inside a skill-local .venv with zero system pollution:
+#     ./setup.sh
 playwright>=1.40
