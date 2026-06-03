@@ -80,6 +80,6 @@ and end on your one line. The **last thing said is what sticks.**
 
 # Tools are means.<br>**Making it land** is the point.
 
-<p class="sub">Slides · cards · video — one content core, many outputs.</p>
+<p class="sub">Slides · cards · video · interactive — one content core, many outputs.</p>
 
 <p class="muted">git clone → <code>~/.claude/skills/sharecraft</code> · MIT · zero API keys</p>
