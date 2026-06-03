@@ -80,10 +80,13 @@
   ];
 
   const NS='http://www.w3.org/2000/svg';
-  const W=158, H=56, HGAP=30, VGAP=72, PAD=20;
+  const H=56, HGAP=30, VGAP=72, PAD=20;
   function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
 
   function flow(svg, ranks, edges){
+    // equal width for ALL nodes, sized to the longest label so nothing overflows (no fixed cap)
+    const longest = Math.max(...ranks.flat().map(n => (n.label||'').length));
+    const W = Math.max(150, Math.round(longest*8.6 + 28));
     const rowW = ranks.map(r => r.length*W + (r.length-1)*HGAP);
     const maxW = Math.max(...rowW);
     const vbW = maxW + PAD*2, vbH = ranks.length*H + (ranks.length-1)*VGAP + PAD*2;

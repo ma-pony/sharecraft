@@ -93,12 +93,17 @@ rules everywhere:
   tinted background + a left accent border. Don't use `display:inline-block;width:100%` inside an
   `overflow` container — it produces ragged, broken bands. Default to **no** highlight; only mark 1–3
   lines, and only when there's a point to make.
+- **Reset inline-code styling inside `<pre>`.** A typical `code{}` rule (light fill + border + padding —
+  the inline "chip" look) leaks onto the `<code>` *inside* `<pre>`, and with `pre-wrap` each wrapped line
+  gets repainted as a horizontal band — stripes across the block. Always reset `pre code{background:none;
+  border:0;padding:0;color:inherit}` (in the CSS above). Real failure caught in the wild.
 - Mono font, size ≥12.5px, generous line-height (~1.6).
 
 ```css
 pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13px;
     line-height:1.6;border-radius:var(--r);padding:var(--s4);max-width:var(--measure);
     white-space:pre-wrap;overflow-wrap:anywhere;}
+pre code{background:none;border:0;padding:0;color:inherit;font:inherit;}  /* see bullet below */
 .tok-com{color:var(--code-com)} .tok-key{color:var(--code-key)} .tok-str{color:var(--code-str)}
 .line-hl{display:block;margin:0 calc(-1*var(--s4));padding:0 var(--s4);
     background:rgba(255,107,91,.10);border-left:3px solid var(--accent);}
@@ -157,9 +162,10 @@ The core:
   .k-core rect{fill:rgba(123,224,168,.12);stroke:#3f9e72}
 </style>
 <script>
-const NS='http://www.w3.org/2000/svg',W=158,H=56,HGAP=30,VGAP=72,PAD=20;
+const NS='http://www.w3.org/2000/svg',H=56,HGAP=30,VGAP=72,PAD=20;
 const el=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n};
 function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,kind}]], edges:[[from,to,label?,dim?]]
+  const W=Math.max(150,Math.round(Math.max(...ranks.flat().map(n=>(n.label||'').length))*8.6+28)); // equal width, fits longest label
   const rowW=ranks.map(r=>r.length*W+(r.length-1)*HGAP), maxW=Math.max(...rowW);
   svg.setAttribute('viewBox',`0 0 ${maxW+PAD*2} ${ranks.length*H+(ranks.length-1)*VGAP+PAD*2}`);
   const defs=el('defs',{}),mk=el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
@@ -185,9 +191,12 @@ diagrams. It must actually run in the headless renderer, so **add `--wait 1200`*
 ```html
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-mermaid.initialize({startOnLoad:true, theme:'base', themeVariables:{
+// startOnLoad:false + explicit run() — an ESM import often finishes AFTER DOMContentLoaded,
+// so the startOnLoad hook is already missed and you'd get raw source text, not a diagram.
+mermaid.initialize({startOnLoad:false, theme:'base', themeVariables:{
   background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
   primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', fontFamily:'JetBrains Mono'}});
+await mermaid.run();
 </script>
 <pre class="mermaid">flowchart TD
   A[Request] --> B{Cache hit?}
@@ -243,9 +252,25 @@ reflex defaults.** Split by register:
 A quick critique pass — generate, then audit against this list and fix what trips. (Mirrors how
 impeccable runs deterministic anti-pattern checks; these are ours.)
 
+**Three failure families (each seen in real generated pages — generalize, don't just check the instance):**
+
+1. **CSS leakage / cascade bleed.** A rule written for one context bleeds into another: inline `code{}`
+   chips striping `<pre>` lines; a global `*`/`a`/`button` reset reaching into a component; `svg`/`img`
+   not width-bounded. *Fix:* scope component styles (class prefix), keep global resets minimal, and reset
+   at the boundary (`pre code{…}`).
+2. **Absolute / fixed-size fragility.** `position:absolute` arrows/badges and fixed `height`/`width`
+   break the moment text wraps, a label lengthens, or the viewport changes (the pipeline arrows pinned at
+   `top:34px`; a fixed-height card clipping long content; a fixed-width node overflowing a long label).
+   *Fix:* prefer flex/grid that stays equal-height by itself; size to content with `min-`, not hard caps.
+3. **Async timing.** Anything ready *after* first paint races the render: Mermaid/ESM `startOnLoad`
+   missing the hook; web-font FOUT shifting layout; images without dimensions causing CLS; a chart drawn
+   after a fetch. *Fix:* an explicit ready signal (`await mermaid.run()`), set media dimensions, and
+   `--wait` when flattening to PNG (§4 rendering note).
+
 - [ ] **One reading measure**, only `--measure` + `--wide` — no stray third width.
-- [ ] **Code**: desaturated strings, long lines wrap (not clipped), any highlight is whole-row and ≤3 lines.
-- [ ] **Flowchart**: directed edges with arrows; same-rank nodes equal width; legend present; not bare divs.
+- [ ] **Code**: desaturated strings, long lines wrap (not clipped), any highlight is whole-row and ≤3 lines; `pre code` reset so inline-code chips don't stripe the block.
+- [ ] **Flowchart**: directed edges with arrows; same-rank nodes equal width; legend present; not bare divs; connectors via flex/layout, not `position:absolute`.
+- [ ] No **CSS leak** (scoped styles), no **absolute/fixed-size fragility** (flex over absolute; content can grow), no **async race** (explicit ready + `--wait`). — the three families above.
 - [ ] Not everything is a card; no card-in-card; hierarchy is visible.
 - [ ] Type hierarchy has real contrast (not 14/15/16px muddied together); ≥1.2 ratio between steps.
 - [ ] No gray text on a colored background; no pure #000/#fff — tint toward the palette.
