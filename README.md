@@ -56,6 +56,10 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 
 [![Flowchart component with directed edges](examples/flow-diagram.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/flow-diagram.html)
 
+**Chart** — [Chart.js](https://www.chartjs.org/) with a brand-theme override ([`design-system.md`](references/design-system.md) §4): the library does axes/tooltips/legend, one `options` block swaps in brand colors, faint gridlines and mono ticks. Take over the *look*, not the engine — don't plot SVG paths by hand:
+
+[![Chart with brand-theme override](examples/chart-brand.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-brand.html)
+
 **Cards & posters** — hand-authored HTML rendered by the bundled [`scripts/html_to_image.py`](scripts/html_to_image.py) (the hero image at the top is the launch card; click any image for its source):
 
 | Vertical poster · 小红书 (1080×1350) | Code card (1600×900) |
