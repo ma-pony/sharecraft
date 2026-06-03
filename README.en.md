@@ -26,7 +26,7 @@ Four media stay coherent only if they pull from one contract. [`references/desig
 
 ## Examples
 
-Every artifact below was produced by the very tools Sharecraft drives — and shaped by the contract (one palette, a single accent, clear hierarchy, thumbnail-readable). All source files live in [`examples/`](examples/).
+Every artifact below was produced by the very tools Sharecraft drives — and shaped by the contract (one dark base, off-white text, clear hierarchy, thumbnail-readable). Each example deliberately uses a *different* accent (indigo, emerald, violet, amber, sky…) to show the range — within any single deliverable you'd hold to one. All source files live in [`examples/`](examples/).
 
 **Slides** — a [Marp](https://marp.app/) deck ([`slides-deck.md`](examples/slides-deck.md)) exported to PNG. Title states the takeaway, one idea per slide, the last slide is the ask:
 

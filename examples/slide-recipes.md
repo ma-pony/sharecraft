@@ -5,7 +5,7 @@ paginate: true
 style: |
   :root{
     --bg:#0B0E14; --surface:#141925; --line:#232A3A;
-    --fg:#ECEFF5; --muted:#8B95A7; --accent:#6E8BFF;
+    --fg:#ECEFF5; --muted:#8B95A7; --accent:#9A86FF;
     --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
     --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
   }
@@ -14,12 +14,12 @@ style: |
     padding:70px 88px; font-size:28px; line-height:1.5;
   }
   section.lead{
-    background:radial-gradient(1100px 600px at 88% -12%, rgba(110,139,255,.18), transparent 60%),#0B0E14;
+    background:radial-gradient(1100px 600px at 88% -12%, rgba(154,134,255,.18), transparent 60%),#0B0E14;
     justify-content:center;
   }
   /* SL03 full-bleed "scene": a colour field stands in for a photo; text rides the bottom */
   section.scene{
-    background:linear-gradient(160deg,#1B2233 0%,#0B0E14 58%),radial-gradient(820px 540px at 22% 18%, rgba(110,139,255,.30), transparent 60%);
+    background:linear-gradient(160deg,#1B2233 0%,#0B0E14 58%),radial-gradient(820px 540px at 22% 18%, rgba(154,134,255,.30), transparent 60%);
     justify-content:flex-end;
   }
   section.scene h1{font-size:88px;}

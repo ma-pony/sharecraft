@@ -5,7 +5,7 @@ paginate: true
 style: |
   :root{
     --bg:#0B0E14; --surface:#141925; --line:#232A3A;
-    --fg:#ECEFF5; --muted:#8B95A7; --accent:#6E8BFF;
+    --fg:#ECEFF5; --muted:#8B95A7; --accent:#56B6E6;
     --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
     --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
   }
@@ -16,7 +16,7 @@ style: |
   }
   section.lead{
     background:
-      radial-gradient(1100px 600px at 88% -12%, rgba(110,139,255,.18), transparent 60%),
+      radial-gradient(1100px 600px at 88% -12%, rgba(86,182,230,.18), transparent 60%),
       #0B0E14;
     justify-content:center;
   }

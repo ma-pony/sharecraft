@@ -275,6 +275,13 @@ reflex defaults.** Split by register:
   fourth in a real type catalog / reference. **House identity always wins** — when sharecraft's brand
   is already the point, keep it; don't second-guess a committed identity.
 
+**One accent per deliverable — but vary it across deliverables.** Within a single piece (or a set that
+ships together — a deck + its card + its GIF), hold to *one* accent so they read as siblings. Across
+*separate* pieces, vary the accent (indigo, emerald, violet, amber, sky…) on the same dark + off-white
+base — sameness across everything you ever make is its own monoculture. The `examples/` here do exactly
+this: each uses a different accent to show the range, all from one system. The indigo `:root` in §1 is
+the default starting point, not a mandate.
+
 ### The override point — "designed" vs "default", per type
 
 The deepest reason output looks generic: **a default is built for everyone, so a default is invisible.**

@@ -26,7 +26,7 @@
 
 ## 示例
 
-下面每一件物料都由 Sharecraft 驱动的工具产出，并按契约打磨（一套色板、单一强调色、清晰层级、缩略图可读）。所有源文件都在 [`examples/`](examples/)。
+下面每一件物料都由 Sharecraft 驱动的工具产出，并按契约打磨（统一深色底、off-white 文字、清晰层级、缩略图可读）。每个示例**刻意用不同的强调色**（靛蓝、翠绿、紫、琥珀、青…）来展示色彩范围——而单次产出会守住一个强调色。所有源文件都在 [`examples/`](examples/)。
 
 **幻灯片**——一套用 [Marp](https://marp.app/) 写的 deck（[`slides-deck.md`](examples/slides-deck.md)）导出为 PNG。标题陈述结论、一页一个想法、最后一页是 call to action：
 
