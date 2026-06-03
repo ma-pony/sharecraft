@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flowchart component — directed edges, zero deps | sharecraft</title>
+<style>
+  :root{
+    --bg:#0E1116; --surface:#161A22; --surface-2:#1B2230; --line:#222836;
+    --fg:#F5F7FA; --ink:#C7CEDB; --muted:#8B95A7; --faint:#5A647A;
+    --accent:#FF6B5B; --green:#7BE0A8; --amber:#E5C07B; --blue:#7BC8FF; --purple:#C792EA;
+    --sans:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue",Arial,sans-serif;
+    --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    --measure:68ch; --wide:1120px;
+    --r:10px; --s4:16px; --s5:24px; --s6:32px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(1000px 560px at 88% -12%,rgba(255,107,91,.12),transparent 60%),var(--bg);
+    color:var(--fg); font-family:var(--sans); line-height:1.7; padding:6vmin; display:flex; flex-direction:column; align-items:center;}
+  .kicker{font:600 13px/1 var(--mono); letter-spacing:.22em; text-transform:uppercase; color:var(--accent);}
+  h1{font-size:clamp(28px,4.4vw,42px); font-weight:800; letter-spacing:-.02em; margin:.3em 0 .2em;}
+  /* §2 — text rides the reading measure; the diagram is deliberate full-bleed */
+  .col{width:min(var(--measure),100%);}
+  .col p{color:var(--muted); font-size:clamp(15px,2.2vw,18px); margin:.2em 0;}
+  .figure{width:min(var(--wide),100%); margin:var(--s6) 0 var(--s5);
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:var(--s6) var(--s4);}
+  /* flowchart component */
+  svg.flow{width:100%; height:auto; display:block; font-family:var(--mono);}
+  .flow .edge{fill:none; stroke:var(--muted); stroke-width:1.6;}
+  .flow .edge.dim{stroke:var(--faint); stroke-dasharray:5 5;}
+  .flow .elabel{fill:var(--muted); font-size:11px; font-family:var(--sans);}
+  .flow .node rect{rx:9; stroke-width:1.4;}
+  .flow .node .nm{fill:var(--fg); font-size:13px; font-weight:500;}
+  .flow .node .sub{fill:var(--muted); font-size:10.5px; font-family:var(--sans);}
+  .k-in   rect{fill:var(--surface-2); stroke:var(--line);}
+  .k-llm  rect{fill:rgba(199,146,234,.14); stroke:#9c6fd6;}
+  .k-core rect{fill:rgba(123,224,168,.12); stroke:#3f9e72;}
+  .k-io   rect{fill:var(--surface-2); stroke:var(--line);}
+  .k-out  rect{fill:rgba(229,192,123,.14); stroke:#b8923f;}
+  .legend{width:min(var(--wide),100%); display:flex; gap:20px; flex-wrap:wrap; font:500 12.5px/1 var(--sans); color:var(--muted);}
+  .legend .d{display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:7px; vertical-align:-1px; border:1px solid;}
+  footer{width:min(var(--wide),100%); margin-top:var(--s5); border-top:1px solid var(--line); padding-top:14px;
+    display:flex; justify-content:space-between; color:var(--muted); font:600 12px/1 var(--mono);}
+</style>
+</head>
+<body>
+  <div class="col">
+    <div class="kicker">● Component · directed flowchart</div>
+    <h1>A flowchart has <span style="color:var(--accent)">edges</span></h1>
+    <p>The text sits on one reading measure; the diagram is a deliberate full-bleed. The graph below is a
+      single zero-dependency inline SVG — equal-width nodes, real arrowheads, color by node category — built
+      from a small <code style="font-family:var(--mono);color:var(--green)">flow(ranks, edges)</code> helper.</p>
+  </div>
+
+  <div class="figure">
+    <svg id="flow" class="flow" role="img" aria-label="Orchestration flow: request to supervisor to specialists to output"></svg>
+  </div>
+  <div class="legend">
+    <span><span class="d" style="background:rgba(199,146,234,.14);border-color:#9c6fd6"></span>LLM node</span>
+    <span><span class="d" style="background:rgba(123,224,168,.12);border-color:#3f9e72"></span>Deterministic</span>
+    <span><span class="d" style="background:rgba(229,192,123,.14);border-color:#b8923f"></span>Output</span>
+    <span><span class="d" style="background:var(--surface-2);border-color:var(--line)"></span>I/O</span>
+  </div>
+  <footer><span>sharecraft · flowchart component</span><span>zero deps · one inline SVG</span></footer>
+
+<script>
+  // ---- reusable directed-flowchart renderer (zero deps) -------------------
+  // ranks: array of rows; each row = array of {id,label,sub,kind}. edges: [from,to,label?,dim?]
+  const RANKS = [
+    [{id:'req', label:'Request', sub:'inbound', kind:'in'}],
+    [{id:'sup', label:'supervisor', sub:'route · decide', kind:'llm'}],
+    [{id:'bazi',label:'bazi_master', sub:'deterministic', kind:'core'},
+     {id:'liu', label:'liuyao_master',sub:'deterministic', kind:'core'},
+     {id:'end', label:'end', sub:'ask_more / decline', kind:'io'}],
+    [{id:'out', label:'output', sub:'assemble · archive', kind:'out'}],
+  ];
+  const EDGES = [
+    ['req','sup'], ['sup','bazi'], ['sup','liu'], ['sup','end','needs info'],
+    ['bazi','out'], ['liu','out'], ['end','out','done',true],
+  ];
+
+  const NS='http://www.w3.org/2000/svg';
+  const W=158, H=56, HGAP=30, VGAP=72, PAD=20;
+  function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
+
+  function flow(svg, ranks, edges){
+    const rowW = ranks.map(r => r.length*W + (r.length-1)*HGAP);
+    const maxW = Math.max(...rowW);
+    const vbW = maxW + PAD*2, vbH = ranks.length*H + (ranks.length-1)*VGAP + PAD*2;
+    svg.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
+
+    // arrowhead marker
+    const defs = el('defs',{});
+    const mk = el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
+    mk.appendChild(el('path',{d:'M0,0 L10,5 L0,10 z',fill:'var(--muted)'}));
+    defs.appendChild(mk); svg.appendChild(defs);
+
+    // position every node, equal width, each rank centered
+    const pos={};
+    ranks.forEach((row,ri)=>{
+      const startX = PAD + (maxW - rowW[ri])/2;
+      const y = PAD + ri*(H+VGAP);
+      row.forEach((n,ci)=>{ pos[n.id] = {x:startX + ci*(W+HGAP), y, n}; });
+    });
+
+    // edges first (under nodes)
+    const eLayer = el('g',{}); svg.appendChild(eLayer);
+    edges.forEach(([from,to,label,dim])=>{
+      const s=pos[from], t=pos[to]; if(!s||!t) return;
+      const sx=s.x+W/2, tx=t.x+W/2;
+      let d, sy, ty;
+      if (t.y > s.y){ sy=s.y+H; ty=t.y; }      // forward (downward)
+      else { sy=s.y; ty=t.y+H; }                // back-edge (upward)
+      const my=(sy+ty)/2;
+      d=`M${sx},${sy} C${sx},${my} ${tx},${my} ${tx},${ty}`;
+      eLayer.appendChild(el('path',{class:'edge'+(dim?' dim':''),d,'marker-end':'url(#arrow)'}));
+      if(label){ eLayer.appendChild(Object.assign(el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4}),{textContent:label})); }
+    });
+
+    // nodes
+    ranks.flat().forEach(n=>{
+      const {x,y}=pos[n.id];
+      const g=el('g',{class:`node k-${n.kind}`});
+      g.appendChild(el('rect',{x,y,width:W,height:H}));
+      const nm=el('text',{class:'nm',x:x+W/2,y:y+(n.sub?22:32),'text-anchor':'middle'}); nm.textContent=n.label;
+      g.appendChild(nm);
+      if(n.sub){ const s=el('text',{class:'sub',x:x+W/2,y:y+38,'text-anchor':'middle'}); s.textContent=n.sub; g.appendChild(s); }
+      svg.appendChild(g);
+    });
+  }
+  flow(document.getElementById('flow'), RANKS, EDGES);
+</script>
+</body>
+</html>

@@ -104,6 +104,30 @@ pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font
     background:rgba(255,107,91,.10);border-left:3px solid var(--accent);}
 ```
 
+**Actually coloring it — don't hand-tag spans.** Token colors are useless without something that emits
+them; hand-writing `<span class="tok-…">` per token is what makes generated code blocks wrong (mis-tagged,
+inconsistent). Pick a renderer:
+
+- **Standalone code *image*** (a card/screenshot) → Carbon / ray.so / CodeImage (`images.md`). Easiest
+  when the code isn't interactive.
+- **Code inside an HTML page** → a real highlighter, themed to the tokens. Quickest is highlight.js via
+  CDN; for the PNG path add `--wait 800` so it colors before capture:
+  ```html
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+  <script>hljs.highlightAll()</script>
+  <style>/* remap hljs to our tokens */
+    .hljs{background:var(--code-bg);color:var(--code-ink)}
+    .hljs-comment,.hljs-quote{color:var(--code-com)}
+    .hljs-keyword,.hljs-built_in{color:var(--code-key)}
+    .hljs-string,.hljs-attr{color:var(--code-str)}
+    .hljs-number{color:var(--code-num)} .hljs-title,.hljs-function{color:var(--code-fn)}
+  </style>
+  <pre><code class="language-ts">const hit = cache.get(key)</code></pre>
+  ```
+- **Guaranteed-offline single file** → pre-highlight at author time (Shiki in a build step, or generate
+  the `.tok-*` markup once) and inline the result — no runtime lib. Use the `.tok-*` classes above.
+
 ## 4. Diagrams & flowcharts
 
 A flowchart's whole job is showing **direction**. The most common failure (seen in real generated docs)
@@ -111,23 +135,71 @@ is nodes stacked as bare `<div>`s with no edges, leaving the reader to guess the
 
 - **A flowchart must have directed edges.** Real connecting lines with arrowheads; the direction reads
   at a glance. Stacking boxes and hoping proximity implies order is not a flowchart.
-- **Implementation order:** ① **Mermaid** (it routes edges and arrows for you — least effort, most
-  reliable) → ② **inline SVG** when you need precise control → **never bare `<div>`s as a "graph."**
-- **Same-rank nodes are the same width** (set a `min-width`), aligned on a grid. One color *per node
-  category* (semantic, not decorative) + a small legend. Kill chartjunk (Tufte): no 3D, no gradients on
-  the boxes, no redundant borders.
+- **Same-rank nodes are the same width**, aligned on a grid. One color *per node category* (semantic,
+  not decorative) + a small legend. Kill chartjunk (Tufte): no 3D, no gradients on the boxes.
 - A diagram is reusable across deck + card + video — author it once (`combine.md`).
 
+**Don't hand-place `<div>`s and hope.** Use one of two concrete renderers — both produce real arrowed
+edges. A rule with no component is why generated flowcharts regress to edgeless boxes.
+
+**Recipe A — zero-dependency inline SVG (default; stays single-file & offline).** Give it ranks (rows of
+nodes) + edges; it lays out equal-width nodes and draws arrowed paths. Full working component +
+exemplar: [`examples/flow-diagram.html`](../examples/flow-diagram.html) (rendered preview alongside).
+The core:
+
+```html
+<svg id="flow" class="flow"></svg>
+<style>
+  .flow .edge{fill:none;stroke:var(--muted);stroke-width:1.6}
+  .flow .edge.dim{stroke:var(--faint);stroke-dasharray:5 5}
+  .flow .node rect{rx:9;stroke-width:1.4}
+  .k-llm rect{fill:rgba(199,146,234,.14);stroke:#9c6fd6}   /* one fill per category */
+  .k-core rect{fill:rgba(123,224,168,.12);stroke:#3f9e72}
+</style>
+<script>
+const NS='http://www.w3.org/2000/svg',W=158,H=56,HGAP=30,VGAP=72,PAD=20;
+const el=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n};
+function flow(svg,ranks,edges){                       // ranks:[[{id,label,sub,kind}]], edges:[[from,to,label?,dim?]]
+  const rowW=ranks.map(r=>r.length*W+(r.length-1)*HGAP), maxW=Math.max(...rowW);
+  svg.setAttribute('viewBox',`0 0 ${maxW+PAD*2} ${ranks.length*H+(ranks.length-1)*VGAP+PAD*2}`);
+  const defs=el('defs',{}),mk=el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
+  mk.appendChild(el('path',{d:'M0,0 L10,5 L0,10 z',fill:'var(--muted)'}));defs.appendChild(mk);svg.appendChild(defs);
+  const pos={};ranks.forEach((row,ri)=>{const sx=PAD+(maxW-rowW[ri])/2,y=PAD+ri*(H+VGAP);
+    row.forEach((n,ci)=>pos[n.id]={x:sx+ci*(W+HGAP),y,n})});
+  edges.forEach(([f,t,label,dim])=>{const s=pos[f],d=pos[t];if(!s||!d)return;
+    const sx=s.x+W/2,tx=d.x+W/2,sy=d.y>s.y?s.y+H:s.y,ty=d.y>s.y?d.y:d.y+H,my=(sy+ty)/2;
+    svg.appendChild(el('path',{class:'edge'+(dim?' dim':''),d:`M${sx},${sy} C${sx},${my} ${tx},${my} ${tx},${ty}`,'marker-end':'url(#arrow)'}));
+    if(label){const l=el('text',{class:'elabel',x:(sx+tx)/2+6,y:my-4});l.textContent=label;svg.appendChild(l)}});
+  ranks.flat().forEach(n=>{const{x,y}=pos[n.id],g=el('g',{class:`node k-${n.kind}`});
+    g.appendChild(el('rect',{x,y,width:W,height:H}));
+    const nm=el('text',{class:'nm',x:x+W/2,y:y+(n.sub?22:32),'text-anchor':'middle'});nm.textContent=n.label;g.appendChild(nm);
+    if(n.sub){const s=el('text',{class:'sub',x:x+W/2,y:y+38,'text-anchor':'middle'});s.textContent=n.sub;g.appendChild(s)}
+    svg.appendChild(g)})}
+</script>
 ```
-%% Mermaid theme aligned to the tokens
-%%{init:{'theme':'base','themeVariables':{
-  'background':'#0E1116','primaryColor':'#161A22','primaryBorderColor':'#222836',
-  'primaryTextColor':'#F5F7FA','lineColor':'#8B95A7','fontFamily':'JetBrains Mono'}}}%%
-flowchart TD
+
+**Recipe B — Mermaid (fast, but needs a CDN, so not truly offline).** Reach for it for quick internal
+diagrams. It must actually run in the headless renderer, so **add `--wait 1200`** to `html_to_image.py`
+(it renders async). Self-contained-ish:
+
+```html
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({startOnLoad:true, theme:'base', themeVariables:{
+  background:'#0E1116', primaryColor:'#161A22', primaryBorderColor:'#222836',
+  primaryTextColor:'#F5F7FA', lineColor:'#8B95A7', fontFamily:'JetBrains Mono'}});
+</script>
+<pre class="mermaid">flowchart TD
   A[Request] --> B{Cache hit?}
   B -- yes --> C[Return cached]
-  B -- no --> D[Query + store]
+  B -- no --> D[Query + store]</pre>
 ```
+
+**Rendering note — let async visuals settle.** Anything built at runtime — JS-generated SVG (the flow
+component), Mermaid, highlight.js, KaTeX, a canvas chart — paints *after* first load. When flattening to
+PNG with `html_to_image.py`, pass `--wait 800`–`1200` (or `--wait-for-webgl` for canvas/WebGL) or you'll
+capture a blank. Web fonts (e.g. `Noto Sans SC` via Google Fonts) need network at render time; for a
+guaranteed-offline artifact, self-host/inline the font or fall back to the system stack.
 
 ## 5. Surfaces, cards & tables
 
@@ -136,7 +208,16 @@ flowchart TD
   content on the background is often better.
 - Card grids: equal heights per row (`align-items:stretch`); consistent padding from the spacing scale.
 - Tables (Tufte): no vertical rules, minimal horizontal rules, let cells breathe; numbers right-aligned,
-  mono for figures. A table that scrolls horizontally on mobile gets a visible affordance.
+  mono for figures. A table that scrolls horizontally on mobile gets a visible affordance. Baseline:
+
+```css
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font:600 11px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;
+   color:var(--muted);border-bottom:1px solid var(--line);padding:0 var(--s4) var(--s2)}
+td{padding:var(--s3) var(--s4);border-bottom:1px solid var(--line)}
+td.num{text-align:right;font-family:var(--mono)}
+.tbl-scroll{overflow-x:auto;max-width:var(--measure)}   /* wrap wide tables; scrollbar stays visible */
+```
 
 ## 6. Distinctiveness & the two registers
 
