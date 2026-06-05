@@ -45,10 +45,11 @@ video *and* a thumbnail. Plan the set, not just one piece.
 
 | Goal | Primary medium | Read |
 |------|----------------|------|
-| Explain something with structure / a talk / walkthrough | Slides | `references/slides.md` |
+| A **live talk** you present slide-by-slide | Slides | `references/slides.md` |
+| Share a **doc / guide / explanation / launch as HTML** to read on its own | Interactive HTML — a **single-page site** (IH09), not slides, not a blog column, not PPT-flip | `references/interactive.md` |
 | One striking visual: social card, cover, poster, code shot, infographic | Image | `references/images.md` |
 | Show motion: concept animation, product demo, terminal flow | Video / GIF | `references/video.md` |
-| Let the audience **do** it: explore params, simulate, scroll a story, filter data | Interactive HTML | `references/interactive.md` |
+| Let the audience **do** it: explore params, simulate, scroll a story, filter data | Interactive HTML — a widget (IH01–IH08) | `references/interactive.md` |
 | Long-form article styled for a platform (公众号/知乎) | Styled doc | `references/images.md` (文颜/markdown-to-image) |
 
 Then check `references/combine.md` — the real power is chaining tools (e.g. one Mermaid diagram reused

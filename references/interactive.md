@@ -1,9 +1,11 @@
-# Interactive HTML — explorables / dashboards / scrollytelling / live demos
+# Interactive HTML — real websites, explorables, dashboards, scrollytelling, demos
 
-This is the one medium where the audience **does** something, not just sees it. An interactive HTML
-artifact is the deliverable *itself* — it stays live (sliders, simulations, scroll-driven stories,
-filterable data, editable code), unlike the HTML→PNG engine in `images.md` which flattens HTML to a
-static picture. Reach for it when the insight comes from *manipulating* a thing, not from reading about it.
+The deliverable is **live HTML the audience navigates and operates** — anywhere from a whole single-page
+**website** (a doc-site, a guide, a launch page, a README-as-a-site) down to one focused explorable
+widget. It stays live (nav, `<details>`, sliders, scroll-driven stories, filterable data, editable code),
+unlike the HTML→PNG engine in `images.md` which flattens HTML to a static picture. When you're sharing
+something *in HTML*, **use the full power of the web — build a real site, not a flat blog column, a
+tweet, or a PPT-flip deck.**
 
 **Why this medium exists (the first principle).** It is the purest expression of principle ⑥ in
 `exemplars.md` — *active beats passive (the generation effect)*. A reader who drags a parameter and
@@ -12,19 +14,24 @@ It also serves ② (let them plug in concrete values before the abstract rule) a
 demand instead of all at once). The exemplars to study are already in `exemplars.md` → 交互式解释
 (Bartosz Ciechanowski, Nicky Case, Distill). This file is how you *produce* that, in sharecraft's way.
 
-> Not the same as slides. reveal.js/Slidev/Impress.js are HTML too, but they're the *slides* medium
-> (`slides.md`). Interactive HTML is broader: explorables, dashboards, scrollytelling, demos, toys.
+> Not slides. reveal.js/Slidev/Impress.js are HTML too, but they're the *slides* medium (`slides.md`) —
+> one screen per page, click to advance. Interactive HTML is broader and is **not** PPT-flip: real
+> single-page sites, explorables, dashboards, scrollytelling, demos, toys. For a doc / guide / launch
+> you want to *share*, prefer a single-page site here over a slide deck.
 
 ## When to use it (vs. another medium)
 
 | The "aha" comes from… | Medium |
 |-----------------------|--------|
-| …reading a structured argument / a talk | Slides (`slides.md`) |
+| …a live talk you present slide-by-slide | Slides (`slides.md`) |
 | …one glance at a striking visual | Image (`images.md`) |
 | …watching a motion you control the pacing of | Video (`video.md`) |
-| **…doing it yourself — trying inputs, exploring, playing** | **Interactive HTML (this file)** |
+| **…reading/navigating a doc, guide, or launch on your own time** | **Interactive HTML — a single-page site (IH09)** |
+| **…doing it yourself — trying inputs, exploring, playing** | **Interactive HTML — a widget (IH01–IH08)** |
 
-If the audience would naturally say "let me try changing that" or "what if I…", this is the medium.
+If the audience would naturally say "let me try changing that" or "what if I…", build a widget. If
+they'd read it on their own and want to scan, jump around, and dig in, build a **site** — not a deck.
+A share that someone opens via a link and reads themselves is a *website*, not a presentation.
 
 ## Interactive recipes — pick the interaction model, then build it
 
@@ -41,6 +48,40 @@ the rest with progressive disclosure. All run locally, zero API keys.
 | **IH06** | Live code playground | "try the code" | editable code → live preview/output | CodeMirror 6, Sandpack |
 | **IH07** | Calculator / configurator | input → computed output | form inputs → result; encode state in the URL hash so it's shareable | vanilla JS |
 | **IH08** | Simulation / toy | feel how a system behaves | play / pause / reset; physics or agents on a canvas | Canvas + rAF, p5.js |
+| **IH09** | **Single-page site / doc-site** | a doc, guide, launch, or README *as a real website* | hero → distinct sectioned layouts → CTA; sticky nav or sidebar TOC with scroll-spy; `<details>`, deep-links, copy buttons | vanilla HTML/CSS/JS + IntersectionObserver |
+
+## IH09 in depth — the share *as a real website*
+
+When the thing you're sharing is a doc, guide, explanation, or launch and you're doing it in HTML, build
+a **real website** — a single-page, long-scroll site that uses the full power of the web. The failure to
+avoid is shipping a **blog/tweet column** (a narrow strip of prose you just scroll) or a **PPT-flip deck**
+(one screen per page). Neither uses what HTML can do.
+
+**What makes it a real site (not a blog column):**
+
+- **A hero / landing section** that states the one takeaway before anything else.
+- **Persistent navigation** — a sticky top nav *or* a sidebar table-of-contents, with **scroll-spy**
+  (the current section highlights via `IntersectionObserver`) so the reader can jump and always knows
+  where they are. Anchored, deep-linkable section ids.
+- **Distinct, purposeful section layouts.** Each section earns its own layout — a feature grid, a
+  comparison table, a stat band, a step flow, a diagram, a code panel, a callout — not a uniform wall of
+  paragraphs. Reading text holds `--measure`; sections that want room go `--wide` (design-system.md §2).
+- **Native HTML interactions instead of prose** — `<details>` for depth-on-demand, copy-to-clipboard on
+  snippets, tabs, CSS/SVG diagrams (§4), the scroll-spy TOC. These are the things a flat doc can't do.
+- **Responsive + a real footer** (repo / links / license). It should feel like a *site*, not a printout.
+- Still **one self-contained `.html`** by default (inline CSS/JS) — "a real website" is about structure
+  and interaction, not about a build pipeline or many files.
+
+**Content discipline (this matters more than the chrome):**
+
+- **Every section leaves something you can take away** — a copyable template, a checklist, decision
+  criteria, an action/mapping table. A section with no takeaway gets cut, not padded.
+- **No filler, no AI-speak.** Drop performative lines ("这就是 X 的形状", "全场高潮", "记住这句，后面是
+  关键"). Say the thing; move on.
+- **No self-promotion, no previewing the structure.** Don't write "每节都给模板，证明不是空谈", "下面
+  这个骨架可以直接抄", "下一节专门讲它". Give the content; let the reader judge it.
+- **Don't mix languages gratuitously.** For a Chinese audience, Chinese-ize the terms (description→触发
+  描述, baseline→对照, precision→准确率); keep only real identifiers / file names in English.
 
 ## Tools (all local / CDN, no API keys)
 
@@ -118,3 +159,6 @@ HTML's:
 - [ ] **Code blocks**: desaturated strings, long lines wrap (never clipped), any highlight whole-row & ≤3 lines (§3).
 - [ ] **Flowcharts**: directed edges with arrows, equal-width same-rank nodes, a legend — not bare `<div>`s (§4).
 - [ ] Ran the **anti-pattern self-check** in `design-system.md` §7 (no card-in-card, no per-section uppercase kicker, no reflex editorial-serif).
+- [ ] **If it's a site (IH09):** real structure — hero, persistent nav/TOC with scroll-spy, distinct per-section layouts (not one prose column), real footer. **Not** a blog/tweet column, **not** PPT-flip.
+- [ ] **Substance:** every section leaves a takeaway (template / checklist / criteria / table); no filler, no AI-speak, no self-promoting or structure-previewing meta-text.
+- [ ] **Language:** terms Chinese-ized for a Chinese audience; no gratuitous 中英混杂 (keep only real identifiers/filenames in English).
