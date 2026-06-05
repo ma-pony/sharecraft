@@ -58,6 +58,10 @@ Every artifact below was produced by the very tools Sharecraft drives — and sh
 | [![Explorable: Area = w × h](examples/explorable-area.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html) | [![Scrollytelling: a caching story](examples/scrolly-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/scrolly-latency.html) | [![Interactive chart](examples/chart-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-latency.html) |
 | *Drag the sliders, derive `Area = w × h` yourself.* [source](examples/explorable-area.html) | *Scroll; the pinned figure changes one thing per step (800ms → 190ms).* [source](examples/scrolly-latency.html) | *Hover for values, click the legend to toggle a series.* [source](examples/chart-latency.html) |
 
+**Single-page site (IH09)** — a doc or guide built as a *real website*, not a blog column or a PPT-flip deck: a sidebar TOC with scroll-spy, distinct per-section layouts, native interactions (`<details>`, copy-to-clipboard), full interactive states, responsive — still one self-contained `.html` ([`interactive.md`](references/interactive.md) IH09):
+
+[![Single-page doc-site example](examples/doc-site.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/doc-site.html)
+
 **Flowchart** — Mermaid in `look: 'handDrawn'`, themed to the tokens (the recipe in [`design-system.md`](references/design-system.md) §4): you write the graph as text, it auto-lays-out and routes the arrows; smooth curved edges, solid fills, a wobbly sketch outline — no hand-written SVG, none of default Mermaid's stiffness. Page chrome stays clean sans; only the diagram is hand-drawn:
 
 [![Hand-drawn flowchart](examples/flow-diagram.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/flow-diagram.html)

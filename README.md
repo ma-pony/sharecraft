@@ -58,6 +58,10 @@
 | [![可探索：Area = w × h](examples/explorable-area.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/explorable-area.html) | [![滚动叙事：一个缓存故事](examples/scrolly-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/scrolly-latency.html) | [![可交互图表](examples/chart-latency.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/chart-latency.html) |
 | *拖动滑块，自己推导出 `Area = w × h`。* [源码](examples/explorable-area.html) | *滚动；固定的图形每步只变一件事（800ms → 190ms）。* [源码](examples/scrolly-latency.html) | *悬停看数值，点击图例切换序列。* [源码](examples/chart-latency.html) |
 
+**单页网站（IH09）**——把一份文档 / 指南做成**真正的网站**，而不是博客长文或 PPT 翻页：侧栏目录 + scroll-spy、每节不同版式、`<details>` / 一键复制等原生交互、完整交互态、响应式，仍是单个自包含 `.html`。内容是干货中文文档，演示"每节留一个可带走物、忌中英混杂"（[`interactive.md`](references/interactive.md) IH09）：
+
+[![单页文档网站示例](examples/doc-site.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/doc-site.html)
+
 **流程图**——Mermaid 的 `look: 'handDrawn'`，并主题化到 token（[`design-system.md`](references/design-system.md) §4 的配方）：你把图写成文本，它自动布局并连线；平滑曲线、实色填充、手绘抖动轮廓——不用手写任何 SVG，也没有默认 Mermaid 的死板感。页面外壳保持干净 sans，只有图本身是手绘的：
 
 [![手绘风流程图](examples/flow-diagram.png)](https://raw.githack.com/ma-pony/sharecraft/main/examples/flow-diagram.html)
