@@ -76,6 +76,18 @@ image breathing, a one-line manifesto, deliberate leading at the open/close). If
 elements: enlarge line-height, add a marginalia column, expand a point, or switch to a denser recipe
 (e.g. XC01→XC02). Verticals that look "thin" almost always failed this test.
 
+**小红书 carousel — platform conventions (learned the hard way):**
+
+- **The set is one story, not loose cards.** A carousel must read as a sequence — each card self-contained
+  *and* carrying the thread forward (cover hooks → each page advances one beat → last card lands the
+  point). "看不懂 / 断片" means the arc broke; number the pages (`02/08`) and make each title continue the
+  previous, don't drop the reader between cards.
+- **Lean filled, not airy.** 小红书 readers expect content-rich cards; the generous-whitespace look that
+  suits a landing page reads as "empty / 没料" here. Push the 4-band test toward **Filled** — more
+  concrete content per card, less blank. (This is the §6 rule in action: density follows the platform.)
+- **Link goes in the *comments*, not the card.** 小红书 posts can't carry a tappable link, so the CTA is
+  **「链接在评论区」**, never "link in bio / 主页". Put the real URL in the first comment.
+
 Vercel's library that turns HTML/CSS (via JSX) into SVG (then PNG via resvg). Best for **batch /
 automated** generation — OG images, per-post covers, templated card series — where you want code, not
 a GUI. This is how Next.js makes dynamic social images. Use it over the Playwright path when you need
