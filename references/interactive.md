@@ -57,6 +57,10 @@ a **real website** — a single-page, long-scroll site that uses the full power 
 avoid is shipping a **blog/tweet column** (a narrow strip of prose you just scroll) or a **PPT-flip deck**
 (one screen per page). Neither uses what HTML can do.
 
+A doc-site is usually a **public / broad / teaching** piece, so it usually wants the **light** base from
+`design-system.md` §1 — dark is the house default, not the right call for a wide how-to audience (§6).
+Decide base by audience, up front.
+
 **What makes it a real site (not a blog column):**
 
 - **A hero / landing section** that states the one takeaway before anything else.

@@ -28,8 +28,9 @@ Spend 30 seconds answering these out loud with the user. Most bad shares fail he
 1. **Who** is the audience? (peers / execs / strangers scrolling / future-you) — sets depth, jargon, tone.
 2. **One takeaway**: if they remember exactly one thing, what is it? Write it as a single sentence.
 3. **Action**: what should they do/feel after? (try it / star it / approve it / understand it)
-4. **Medium & where**: where will it actually be consumed? (WeChat feed, Twitter, a meeting, README, a talk) — this decides aspect ratio, length, and density more than anything.
-5. **Effort budget**: 5-minute throwaway or a polished centerpiece? Don't over-build a Slack one-off.
+4. **Medium & where**: where will it actually be consumed? (WeChat feed, Twitter, a meeting, README, a talk) — this decides aspect ratio, length, and density more than anything. **Also lock the *shape* now**: an HTML share to read on its own is a *real website* (interactive.md IH09), not a deck or a blog column — getting the shape wrong up front is the costliest mistake to fix later.
+5. **Base look for this audience**: dark is only the house default. A public / teaching / broad-audience piece usually wants a **light, plain** base (`design-system.md` §1/§6); the dark brand look is for dev-facing brand artifacts. Decide here, not after a rewrite.
+6. **Effort budget**: 5-minute throwaway or a polished centerpiece? Don't over-build a Slack one-off.
 
 If the user hasn't given enough to answer these, ask **one** tight clarifying question — then proceed.
 Then read `references/methodology.md` for the principles that make each medium land. **Always skim it
@@ -119,7 +120,7 @@ video's thumbnail).
 A few hard rules keep output honest and on-scope:
 
 - **No external API keys / paid services** — every tool here runs locally. Don't reach for one that needs auth unless the user explicitly asks.
-- **Don't fake data, quotes, logos, or metrics.** A share that misrepresents loses trust fast. Source images get recorded (see `images.md`); credit when needed.
+- **Don't fake data, quotes, logos, or metrics.** A share that misrepresents loses trust fast. Source images get recorded (see `images.md`); credit when needed. For **before/after or good/bad comparisons, use the real, uncompressed artifact** (the actual screenshot / original page) — a prettified re-creation is no longer evidence.
 - **Pick a layout, then fill it** — for cards/carousels use a named recipe (`images.md`), don't free-style every card; verticals must pass the 4-band density check.
 - **Honor the platform's real spec** — exact ratios/sizes from the `methodology.md` table (e.g. 公众号 cover = 21:9 + 1:1, re-typeset not cropped).
 - **Skim `methodology.md` before the final artifact**, and run the medium's checklist before handing over. That discipline is the skill.

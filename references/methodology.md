@@ -144,6 +144,19 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - **No narrative.** → Impose an arc (SCQA / Sparkline / three-act). Even a card has a before→after.
 - **Buried the ask.** → State one action explicitly, prominently, at the end.
 - **The slide is the script.** → If it stands alone, it's a Slidedoc; strip it to keywords + visuals.
+- **Wrong shape — patched, not restarted.** → If the artifact is fundamentally the wrong *form* (a
+  PPT-knockoff when a real website was needed; a deck when a one-pager was), don't iterate on the broken
+  skeleton. **Restart from the right shape, reuse the good assets.** Patching the wrong frame costs more
+  rounds than a rewrite.
+- **Recreated the proof.** → For before/after and good/bad comparisons, show the **real, uncompressed
+  artifact** (the actual screenshot / original page), not a prettified re-creation. Remade "evidence" is
+  no longer evidence; authenticity beats polish here.
+- **The demo doesn't demonstrate.** → For a teaching/explainer share, the example must *vividly exhibit
+  the claim* (a too-mild example proves nothing), and you **show the process — problem → fix → re-test —
+  not just the polished end state.** The iteration loop is the lesson.
+- **Imposed a default on the wrong audience.** → Base theme, density, and formality follow the *audience*,
+  not habit. A broad/public/how-to share usually wants a **light, plain** base, not the dark brand look
+  (`design-system.md` §1/§6). Decide it up front, with aspect ratio.
 
 ## See the principles in action
 

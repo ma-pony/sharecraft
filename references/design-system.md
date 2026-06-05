@@ -61,8 +61,23 @@ reach for these tokens so a deck, a card and an explorable read as siblings.
 }
 ```
 
-Light-background docs: swap `--bg`/`--surface` to light and keep `--code-bg` dark (a dark code panel on
-a light page is fine and legible); keep the same accent and code tokens.
+**Dark is the house *default*, not a mandate — the base is an audience decision (see §6).** Public,
+teaching, or broad-audience docs usually want **light**; the brand-y dev artifact wants dark. Same
+structure, same accent family, just swap the base. Concrete light set (a drop-in, so "use light" isn't
+left vague):
+
+```css
+:root{                                  /* light base */
+  --bg:#FBFCFD; --surface:#F3F5F8; --surface-2:#EAEDF2; --line:#DDE2EA;
+  --fg:#1A1F2A; --ink:#33394A; --muted:#5C6675; --faint:#8A93A6;
+  --accent:#4F5BD5;                     /* deepen the indigo so text/links clear 4.5:1 on white */
+  --green:#1F9D6B; --amber:#B5852E;     /* signals also deepen for contrast on light */
+  --code-bg:#11151D; --code-ink:#E8ECF3; /* a dark code panel on a light page is fine & legible */
+}
+```
+
+The accent and signal hues **deepen** on light (a tint that pops on near-black washes out on white) —
+the same perceptual-weight rule as dark mode, run the other way. Code tokens stay as in the dark set.
 
 ## 2. Width & measure (the #1 "cheap" tell)
 
@@ -320,6 +335,12 @@ ships together — a deck + its card + its GIF), hold to *one* accent so they re
 base — sameness across everything you ever make is its own monoculture. The `examples/` here do exactly
 this: each uses a different accent to show the range, all from one system. The indigo `:root` in §1 is
 the default starting point, not a mandate.
+
+**Every default the contract sets is a starting point the audience re-decides — not just the accent.**
+The same applies to the **base theme** (dark is the house default; a public/teaching/broad-audience doc
+usually wants the **light** base from §1 — don't impose dark on a wide audience), to **density**,
+**formality**, and **language**. Read the audience first, then pick; the tokens are a default, not a cage.
+A real miss this rule prevents: shipping a dark deck to a broad how-to audience that wanted a plain light page.
 
 ### The override point — "designed" vs "default", per type
 
