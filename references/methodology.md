@@ -151,10 +151,19 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
   rounds than a rewrite.
 - **Recreated the proof.** → For before/after and good/bad comparisons, show the **real, uncompressed
   artifact** (the actual screenshot / original page), not a prettified re-creation. Remade "evidence" is
-  no longer evidence; authenticity beats polish here.
+  no longer evidence; authenticity beats polish here. When the change is **code or text, show it as a
+  git-diff** (`design-system.md` §3 diff view) — `−`/`+` lines — not two separate blocks.
 - **The demo doesn't demonstrate.** → For a teaching/explainer share, the example must *vividly exhibit
-  the claim* (a too-mild example proves nothing), and you **show the process — problem → fix → re-test —
-  not just the polished end state.** The iteration loop is the lesson.
+  the claim* (a too-mild example proves nothing); use **more than one counter-example, from different
+  angles**, and **show the fix's effect on them** — problem → fix → re-test, not just the polished end
+  state. The visible iteration loop is the lesson.
+- **Jargon over the reader's head.** → Match vocabulary to the audience; define or drop unfamiliar terms
+  and abbreviations (and don't mix languages gratuitously). Unfamiliar-word density is a readability tax.
+- **Patched a fragment, broke the flow.** → Place each edit where it belongs in the *whole* arc (e.g. a
+  v2 fix goes right after the problem it fixes), then re-read end-to-end — don't edit only the fragment
+  you're looking at.
+- **Gold-plating every channel.** → Stop when it lands. Not every companion piece needs equal polish — a
+  quick 小红书 set can stay simple; over-producing is its own failure.
 - **Imposed a default on the wrong audience.** → Base theme, density, and formality follow the *audience*,
   not habit. A broad/public/how-to share usually wants a **light, plain** base, not the dark brand look
   (`design-system.md` §1/§6). Decide it up front, with aspect ratio.

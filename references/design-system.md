@@ -112,6 +112,10 @@ rules everywhere:
   the inline "chip" look) leaks onto the `<code>` *inside* `<pre>`, and with `pre-wrap` each wrapped line
   gets repainted as a horizontal band — stripes across the block. Always reset `pre code{background:none;
   border:0;padding:0;color:inherit}` (in the CSS above). Real failure caught in the wild.
+- **Showing a *change* → use a git-diff view, not two separate blocks.** When the point is "what
+  changed" (v1→v2, before/after, a fix), a unified diff — `−` removed lines on a red tint, `+` added on a
+  green tint, context muted — makes the delta read at a glance and is the **preferred** form for any
+  before/after. Conventional red/green is semantic here (removed/added), not brand color.
 - Mono font, size ≥12.5px, generous line-height (~1.6).
 
 ```css
@@ -122,6 +126,11 @@ pre code{background:none;border:0;padding:0;color:inherit;font:inherit;}  /* see
 .tok-com{color:var(--code-com)} .tok-key{color:var(--code-key)} .tok-str{color:var(--code-str)}
 .line-hl{display:block;margin:0 calc(-1*var(--s4));padding:0 var(--s4);
     background:rgba(110,139,255,.10);border-left:3px solid var(--accent);}
+/* diff view — preferred for any before/after / v1→v2 / fix */
+.diff span{display:block;margin:0 calc(-1*var(--s4));padding:0 var(--s4) 0 calc(var(--s4) + 1ch);text-indent:-1ch}
+.diff .del{background:rgba(229,112,123,.13);color:#E59AA2} .diff .del::before{content:"−";color:#E5707B}
+.diff .add{background:rgba(123,224,168,.13);color:var(--green)} .diff .add::before{content:"+";color:var(--green)}
+.diff .ctx{color:var(--muted)} .diff .ctx::before{content:"\00a0"}
 ```
 
 **Actually coloring it — don't hand-tag spans.** Token colors are useless without something that emits
@@ -336,11 +345,14 @@ base — sameness across everything you ever make is its own monoculture. The `e
 this: each uses a different accent to show the range, all from one system. The indigo `:root` in §1 is
 the default starting point, not a mandate.
 
-**Every default the contract sets is a starting point the audience re-decides — not just the accent.**
-The same applies to the **base theme** (dark is the house default; a public/teaching/broad-audience doc
-usually wants the **light** base from §1 — don't impose dark on a wide audience), to **density**,
-**formality**, and **language**. Read the audience first, then pick; the tokens are a default, not a cage.
-A real miss this rule prevents: shipping a dark deck to a broad how-to audience that wanted a plain light page.
+**Every default the contract sets is a starting point the audience & purpose re-decide — not just the
+accent.** The same one principle governs the **base theme** (dark is the house default; a public /
+teaching / broad-audience doc usually wants the **light** base from §1 — don't impose dark on a wide
+audience), the **density**, the **formality**, the **vocabulary** (match the reader; define or drop
+jargon, don't mix languages gratuitously), and **how much to polish** (effort follows the stakes — a
+quick companion piece can stay simple; over-producing is its own failure). Read audience + purpose first,
+then pick; the tokens are a default, not a cage. Misses this rule prevents: a dark deck shipped to a
+broad how-to audience; a jargon-dense explainer for newcomers; gold-plating a throwaway 小红书 set.
 
 ### The override point — "designed" vs "default", per type
 
