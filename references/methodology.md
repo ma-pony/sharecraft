@@ -113,6 +113,7 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
       justified-empty. Fix any under-filled band by adding content, not empty spacers (`images.md`).
 - [ ] Chinese cards: headline size matches its 字数, body ≥28px, one CJK + one Latin family (`images.md`).
 - [ ] Code cards & diagrams follow the shared contract (`design-system.md` §3–4); ran the §7 anti-pattern check.
+- [ ] **Byline / @handle is the user's real one** (ask if unknown) — never a placeholder like `@xxx` / `@skill笔记`; same for any logo, name, or QR.
 - [ ] Brand-register piece makes **one** deliberate signature move; not the reflex defaults (`design-system.md` §6).
 
 ### Video / GIF
