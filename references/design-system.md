@@ -238,7 +238,7 @@ PNG with `html_to_image.py`, pass `--wait 800`–`1200` (or `--wait-for-webgl` f
 capture a blank. Web fonts (e.g. `Noto Sans SC` via Google Fonts) need network at render time; for a
 guaranteed-offline artifact, self-host/inline the font or fall back to the system stack.
 
-## 5. Surfaces, cards & tables
+## 5. Surfaces, components, states & motion
 
 - **Don't wrap everything in cards, and never nest cards in cards.** A border + surface fill is a way to
   group *related* things; applied to everything it becomes visual noise and flattens hierarchy. Plain
@@ -255,6 +255,45 @@ td{padding:var(--s3) var(--s4);border-bottom:1px solid var(--line)}
 td.num{text-align:right;font-family:var(--mono)}
 .tbl-scroll{overflow-x:auto;max-width:var(--measure)}   /* wrap wide tables; scrollbar stays visible */
 ```
+
+### Interactive states (don't ship half of them)
+
+An element that only has a resting style looks unfinished the moment a pointer or keyboard touches it.
+Every interactive thing (button, link, input, tab, toggle, row) gets the states it can actually reach —
+typically **default · hover · focus-visible · active · disabled**, plus **loading / error / success / empty**
+where the flow has them. Two rules that catch most misses:
+
+- **Hover ≠ focus.** Keyboard users never see hover. Style `:focus-visible` separately — never
+  `outline:none` without a replacement ring (≥2px, offset, ≥3:1 contrast against the surface).
+- **Loading is a skeleton, empty teaches.** Prefer a content-shaped skeleton over a centered spinner;
+  an empty state says what goes here and how to start, not "nothing here."
+
+```css
+.btn{transition:background var(--dur) var(--ease), transform var(--dur) var(--ease)}
+.btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.45; pointer-events:none}
+:where(button,a,input,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+```
+
+### Motion
+
+Tokens: `--dur` / `--ease` (above). Motion **conveys state** (a thing appeared, changed, loaded, is
+dragging) — it is not decoration.
+
+- **150–250ms** for most UI transitions; the reader is here to read, not watch choreography.
+- **No orchestrated page-load sequence** on a doc / dashboard / product surface — it just delays the
+  content. (A brand landing page can earn one deliberate entrance; that's the exception.)
+- Always honour `@media (prefers-reduced-motion: reduce)` — drop transforms/animation, keep the end state.
+
+### Iconography & imagery
+
+- **One icon set**, one weight (e.g. Lucide / Phosphor, or a small hand-rolled SVG sprite). Don't mix
+  sets, and **don't use emoji as UI icons** — they render differently per OS and read as unpolished.
+- **Real imagery for image-led content.** If the piece is about a place/product/person, use a real photo
+  (your own, or sourced per `images.md`'s 3-choice gate) — don't substitute decorative CSS panels,
+  gradients, or fake screenshots. Set explicit `width`/`height` (or `aspect-ratio`) so images don't shift
+  layout as they load.
 
 ## 6. Distinctiveness & the two registers
 
@@ -351,5 +390,6 @@ impeccable runs deterministic anti-pattern checks; these are ours.)
 - **`slides.md`** — SL06 code spotlight uses §3; flow slides (SL09) use §4; all use §1–2, §6–7. Plus
   its own density caps and SL recipes.
 - **`video.md`** — code/diagram frames use §3–4; all use §1, §6–7. Plus its own timing/shot recipes.
-- **`interactive.md`** — uses §1–7, and adds the HTML-only layer: responsive `clamp()`/`ch`,
-  click-to-highlight code, draggable/zoomable diagrams, TTI/touch/keyboard. See its Component specs.
+- **`interactive.md`** — uses §1–7 the most (especially §5 interactive states & motion, since it's the
+  only live medium), and adds the HTML-only layer: responsive `clamp()`/`ch`, click-to-highlight code,
+  draggable/zoomable diagrams, the single-page-site recipe (IH09), TTI/touch/keyboard. See its specs.

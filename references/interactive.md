@@ -72,6 +72,18 @@ avoid is shipping a **blog/tweet column** (a narrow strip of prose you just scro
 - Still **one self-contained `.html`** by default (inline CSS/JS) — "a real website" is about structure
   and interaction, not about a build pipeline or many files.
 
+**Build it to a real-site bar (definition of done):**
+
+- **Semantic structure** — real `<header>/<nav>/<main>/<section>/<footer>` landmarks, real heading order,
+  labelled controls. The page should be navigable and readable with the CSS stripped.
+- **Every interactive control carries its real states** — hover *and* `:focus-visible`, active, disabled
+  (design-system.md §5). A site whose buttons/links only have a resting style reads as a mockup.
+- **No overflow at any width.** Test 375px → desktop; line breaks stable, nothing clipped, the TOC
+  collapses gracefully on mobile. Use container queries for components that live in both wide and narrow
+  slots (design-system.md §2/§5).
+- **Build in passes** — structure → visual system → states → motion → responsive — each a deliberate
+  pass, not one blurred sweep. Restrained motion only (§5): 150–250ms, conveys state, honours reduced-motion.
+
 **Content discipline (this matters more than the chrome):**
 
 - **Every section leaves something you can take away** — a copyable template, a checklist, decision
