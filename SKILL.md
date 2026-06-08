@@ -21,6 +21,10 @@ the right medium, with nothing in the way of understanding.** Tools make that fa
 it good. This skill does both: it forces a short thinking pass first, then drives best-in-class
 open-source tools to produce slides, images, or video.
 
+> **Read these as defaults to adapt, not rules to obey.** The recipes, specs, and checklists here are a
+> *menu* you pull from after reading the brief (Step 0) — not a script to run top-to-bottom. When a rule
+> and the audience disagree, the audience wins. Pull only what fits; skip the rest.
+
 ## Step 0 — Think before you build (never skip)
 
 Spend 30 seconds answering these out loud with the user. Most bad shares fail here, not in tooling.

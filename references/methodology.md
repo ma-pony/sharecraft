@@ -139,6 +139,10 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 
 ## Common failure modes (and the fix)
 
+> These are the message/narrative-level misses. For the visual/technical ones (width, code, flowcharts,
+> CSS leaks, async races, AI fingerprints), the live **Gotchas hub is `design-system.md` §7** — run it
+> before handing over any artifact with HTML, code, or a diagram.
+
 - **"I dumped everything in."** → One message; the rest becomes an appendix or a follow-up.
 - **Decoration over communication.** → Remove anything that doesn't aid understanding (Reynolds/Tufte).
 - **Built for the desktop, consumed on mobile.** → Test at target size before shipping.

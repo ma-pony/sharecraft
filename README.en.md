@@ -122,6 +122,7 @@ The skill triggers on the intent to **make something to share**, even if you onl
 | [`references/video.md`](references/video.md) | Remotion, Manim, Motion Canvas, VHS, asciinema+agg, OBS, ffmpeg; shot recipes VS01–VS10. |
 | [`references/interactive.md`](references/interactive.md) | Interactive HTML — explorables, dashboards, scrollytelling, live demos; recipes IH01–IH08, single-file & zero-API. |
 | [`references/combine.md`](references/combine.md) | Chaining tools — one source of truth across deck + image + video + explorable. |
+| [`assets/base.css`](assets/base.css) | The contract as one inlinable stylesheet — tokens (dark + light) + component baselines (code/diff, tables, interactive states, measure/wide). Inline it into a single-file artifact instead of re-typing. |
 | [`scripts/html_to_image.py`](scripts/html_to_image.py) | Playwright-based HTML/CSS → PNG renderer (with `--ids` batch) — the universal card/poster/infographic engine. |
 
 ## The methodology, in one breath

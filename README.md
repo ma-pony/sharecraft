@@ -122,6 +122,7 @@ cd ~/.claude/skills/sharecraft && ./setup.sh
 | [`references/video.md`](references/video.md) | Remotion、Manim、Motion Canvas、VHS、asciinema+agg、OBS、ffmpeg；镜头 recipe VS01–VS10。 |
 | [`references/interactive.md`](references/interactive.md) | 可交互 HTML——explorable、仪表盘、滚动叙事、实时 demo；recipe IH01–IH08，单文件 & 零 API。 |
 | [`references/combine.md`](references/combine.md) | 串联工具——一份内容内核贯穿 deck + 图片 + 视频 + explorable。 |
+| [`assets/base.css`](assets/base.css) | 设计契约的可 inline 样式表——tokens(深/浅) + 组件基线(代码/diff、表格、交互态、measure/wide)，单文件产物直接内联，不必手抄。 |
 | [`scripts/html_to_image.py`](scripts/html_to_image.py) | 基于 Playwright 的 HTML/CSS → PNG 渲染器（含 `--ids` 批量）——通用的卡片 / 海报 / 信息图引擎。 |
 
 ## 一口气讲完方法论

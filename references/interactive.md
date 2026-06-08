@@ -75,6 +75,9 @@ Decide base by audience, up front.
 - **Responsive + a real footer** (repo / links / license). It should feel like a *site*, not a printout.
 - Still **one self-contained `.html`** by default (inline CSS/JS) — "a real website" is about structure
   and interaction, not about a build pipeline or many files.
+- **Don't start from a blank file.** Inline [`../assets/base.css`](../assets/base.css) for tokens +
+  component baselines, and use [`examples/doc-site.html`](../examples/doc-site.html) as the structural
+  skeleton (sticky TOC + scroll-spy + sectioned layouts). Adapt, don't rebuild from zero.
 
 **Build it to a real-site bar (definition of done):**
 

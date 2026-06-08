@@ -1,16 +1,15 @@
 # Design system — the shared visual contract
 
-One content core, many outputs (`combine.md`) only looks coherent if every medium pulls from **one
-contract**. This file is that contract: the tokens, the component baselines, and the anti-patterns that
-apply **across** cards, slides, video frames and interactive HTML. Read it once; the per-medium files
-(`images.md`, `slides.md`, `video.md`, `interactive.md`) reference it instead of re-deciding width,
-code style, or diagram rules every time — that ad-hoc re-deciding is exactly what makes output look
-generic and inconsistent.
+One content core, many outputs (`combine.md`) stays coherent only if every medium pulls from **one
+contract**. This is it: the tokens, component baselines, and anti-patterns that apply **across** cards,
+slides, video frames and interactive HTML — so width, code style, and diagram rules aren't re-decided
+(badly) each time. The per-medium files reference this; each adds only what's genuinely its own
+(`clamp()`/click-to-highlight are HTML's; the 4-band density test is the card's; shot timing is video's).
 
-**Universal vs medium-specific.** The rules here are *universal* — true for any artifact. Each medium
-file then adds only what's genuinely its own (responsive `clamp()` and click-to-highlight are HTML's;
-the 4-band density test is the vertical card's; shot timing is video's). When in doubt, a rule that
-would help a slide *and* a card *and* a page belongs here, not in one medium file.
+**Defaults, not a cage.** The tokens and specs below are a sensible *starting point* the brief and
+audience re-decide (see §6) — copy the drop-ins, adapt values, skip what doesn't fit. Don't hand-retype:
+inline [`assets/base.css`](../assets/base.css). The one thing to actually *run* before handing over is
+the **Gotchas hub (§7)** — the highest-signal part of this file.
 
 ## Contents
 1. Tokens — the copy-paste `:root`
@@ -78,6 +77,12 @@ left vague):
 
 The accent and signal hues **deepen** on light (a tint that pops on near-black washes out on white) —
 the same perceptual-weight rule as dark mode, run the other way. Code tokens stay as in the dark set.
+
+> **Don't hand-retype any of this — inline [`assets/base.css`](../assets/base.css).** It bundles this
+> `:root` (dark + a `data-theme="light"` override) plus the §3–§5 component baselines (code/diff, tables,
+> interactive states, measure/wide helpers) as one drop-in stylesheet. Inline it into a single-file
+> artifact, then override only the few values the brief changes (e.g. `--accent`). The code blocks in
+> §2–§5 below are the *explanation*; `base.css` is the thing you actually paste.
 
 ## 2. Width & measure (the #1 "cheap" tell)
 
@@ -407,7 +412,10 @@ an *aesthetic* (brutalist, bento, editorial, glass), there's no official package
 say so. *(For frontend/landing pieces you can also make the register concrete with three dials —
 variance / motion / density, set from the brief's vibe — borrowed from taste-skill; keep it lightweight.)*
 
-## 7. Anti-pattern self-check (run before handing over)
+## 7. Gotchas hub — anti-pattern self-check (run before handing over)
+
+> This is the single place the recurring failures live — the highest-signal part of the contract, grown
+> from real misses. When a new failure shows up, add it here. Other files point back to this list.
 
 A quick critique pass — generate, then audit against this list and fix what trips. (Mirrors how
 impeccable runs deterministic anti-pattern checks; these are ours.)
