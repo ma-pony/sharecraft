@@ -319,6 +319,20 @@ dragging) — it is not decoration.
   gradients, or fake screenshots. Set explicit `width`/`height` (or `aspect-ratio`) so images don't shift
   layout as they load.
 
+### Small craft (the difference between finished and sketch)
+
+A handful of low-effort details that read as "designed", borrowed from anti-slop frontend practice:
+
+- **Numbers use tabular figures** (`font-variant-numeric: tabular-nums`, or a mono) so columns/stats align.
+- **No orphan words** — `text-wrap: balance` on headings, `text-wrap: pretty` on body.
+- **Tint shadows, don't use pure black** — a shadow takes the surface's hue at low opacity, not `rgba(0,0,0,…)`.
+- **Vary the radius** — softer on containers, tighter on inner elements; not one radius on everything.
+- **Accent saturation under ~80%, one gray family** — a screaming accent and mixed warm/cool grays both read cheap.
+- **Full-height sections use `min-height:100dvh`, not `100vh`** (the `100vh` mobile-browser jump bug).
+- **Tone jumps are deliberate, not accidental.** A `#111` section dropped into a cream page reads as a
+  copy-paste accident; a single *drenched* emphasis block is fine **if** it's clearly intentional and
+  consistently treated (a committed accent moment), not a random mid-page switch.
+
 ## 6. Distinctiveness & the two registers
 
 Generic is the real risk: a flood of same-looking AI output means "average" is invisible. But the cure
@@ -384,6 +398,15 @@ SVG paths yourself; a Slidev/Marp theme instead of a from-zero reveal.js deck. R
 hand is the trap — more work, more bugs, rarely better. If you find yourself computing coordinates or
 re-implementing what a library already does, you've over-reached: step back to the style switch.
 
+**Reach for the *official* system when the brief is one.** If the piece reads as a known product family —
+Fluent (Microsoft), Material, Carbon (IBM), Polaris (Shopify), Primer (GitHub), GOV.UK / USWDS, or a
+modern React base (Radix, shadcn) — install the **real package and theme it**, don't hand-recreate its
+CSS or import its tokens then override 90%. Be honest in comments about borrowed-aesthetic vs official
+material, and keep **one system per project** (don't mix Carbon into a Material tree). When the brief is
+an *aesthetic* (brutalist, bento, editorial, glass), there's no official package — build it natively and
+say so. *(For frontend/landing pieces you can also make the register concrete with three dials —
+variance / motion / density, set from the brief's vibe — borrowed from taste-skill; keep it lightweight.)*
+
 ## 7. Anti-pattern self-check (run before handing over)
 
 A quick critique pass — generate, then audit against this list and fix what trips. (Mirrors how
@@ -411,6 +434,7 @@ impeccable runs deterministic anti-pattern checks; these are ours.)
 - [ ] Not everything is a card; no card-in-card; hierarchy is visible.
 - [ ] Type hierarchy has real contrast (not 14/15/16px muddied together); ≥1.2 ratio between steps.
 - [ ] No gray text on a colored background; no pure #000/#fff — tint toward the palette.
+- [ ] **Small craft (§5):** tabular figures, no orphan words, tinted shadows, varied radius, accent <80% sat + one gray family, `100dvh` not `100vh`; any tone jump is deliberate, not an accidental mid-page switch.
 - [ ] **No AI fingerprints**: a tracked-uppercase kicker over *every* section; reflex editorial-serif +
       italic + broadsheet grid on a brief that isn't a magazine; bounce/elastic easing.
 - [ ] Brand-register pieces make exactly one deliberate signature move (§6); product-register pieces don't.

@@ -32,7 +32,10 @@ Spend 30 seconds answering these out loud with the user. Most bad shares fail he
 5. **Base look for this audience**: dark is only the house default. A public / teaching / broad-audience piece usually wants a **light, plain** base (`design-system.md` §1/§6); the dark brand look is for dev-facing brand artifacts. Decide here, not after a rewrite.
 6. **Effort budget**: 5-minute throwaway or a polished centerpiece? Don't over-build a Slack one-off.
 
-If the user hasn't given enough to answer these, ask **one** tight clarifying question — then proceed.
+**Then declare a one-line "read" and go.** Before generating, state the call in a single sentence —
+*"Reading this as: a \<medium/shape> for \<audience>, \<vibe>, leaning \<direction/base>."* — so the
+direction is explicit and correctable. If the brief is genuinely ambiguous, ask **exactly one** tight
+question (never a multi-question dump); if you can infer it, **don't ask — declare and proceed.**
 Then read `references/methodology.md` for the principles that make each medium land. **Always skim it
 before producing the final artifact** — it is what separates this skill from "just run a tool". For the
 concrete cross-medium *how* — width/measure, code-block style, directed-edge flowcharts, palette tokens,

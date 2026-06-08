@@ -153,7 +153,7 @@ Sharecraft 建立在许多人的工作之上，并尽量如实致谢。
 - **它驱动的开源工具**——[Marp](https://marp.app/) · [Slidev](https://sli.dev/) · [reveal.js](https://revealjs.com/) · [Playwright](https://playwright.dev/) · [Manim](https://www.manim.community/) · [Remotion](https://www.remotion.dev/) · [VHS](https://github.com/charmbracelet/vhs) · [Mermaid](https://mermaid.js.org/) · [Chart.js](https://www.chartjs.org/) · [D3](https://d3js.org/) · [Observable Plot](https://observablehq.com/plot/) · [Excalidraw](https://excalidraw.com/) · [Carbon](https://carbon.now.sh/) · [文颜 wenyan](https://github.com/caol64/wenyan) · [迅排设计 poster-design](https://github.com/palxiao/poster-design) · [ffmpeg](https://ffmpeg.org/) · [uv](https://github.com/astral-sh/uv)——以及 `references/` 里列出的每一个项目。
 - **沟通的手艺**——Nancy Duarte（*Resonate*、*slide:ology*）、Barbara Minto（*金字塔原理*）、Garr Reynolds（*演说之禅*）、Edward Tufte（*定量信息的视觉呈现*）、Richard Mayer（多媒体学习）、以及 TED 的经典积淀。
 - **它研究的标杆**——3Blue1Brown、Kurzgesagt、Fireship、TED/Steve Jobs、纽约时报与 The Pudding 的图形团队、Bartosz Ciechanowski 与 Nicky Case（可探索式讲解）、Julia Evans、以及 awesome-readme 社区。
-- **设计质量参考**——[impeccable](https://github.com/pbakaus/impeccable)（反模式 / critique pass 的思路）与 [open-design](https://github.com/nexu-io/open-design)（设计 token 契约）启发了 `design-system.md` 的做法；深色色板学习自 Linear、Vercel、Stripe 与 [Radix Colors](https://www.radix-ui.com/colors)。
+- **设计质量参考**——[impeccable](https://github.com/pbakaus/impeccable)（反模式 / critique pass 思路）、[open-design](https://github.com/nexu-io/open-design)（设计 token 契约）、[taste-skill](https://github.com/Leonxlnx/taste-skill)（"design read"、反默认纪律、官方设计系统诚实规则）共同启发了 `design-system.md` 的做法；深色色板学习自 Linear、Vercel、Stripe 与 [Radix Colors](https://www.radix-ui.com/colors)。
 
 它教的是*向他们所有人学习*——提炼原理、创造自己的表达——**而非照抄**。
 

@@ -145,10 +145,11 @@ The medium and platform fix the canvas. Building first and resizing later wrecks
 - **No narrative.** → Impose an arc (SCQA / Sparkline / three-act). Even a card has a before→after.
 - **Buried the ask.** → State one action explicitly, prominently, at the end.
 - **The slide is the script.** → If it stands alone, it's a Slidedoc; strip it to keywords + visuals.
-- **Wrong shape — patched, not restarted.** → If the artifact is fundamentally the wrong *form* (a
-  PPT-knockoff when a real website was needed; a deck when a one-pager was), don't iterate on the broken
-  skeleton. **Restart from the right shape, reuse the good assets.** Patching the wrong frame costs more
-  rounds than a rewrite.
+- **Wrong shape — patched, not restarted.** → If *your own fresh draft* is fundamentally the wrong *form*
+  (a PPT-knockoff when a real website was needed; a deck when a one-pager was), don't iterate on the
+  broken skeleton — **restart from the right shape, reuse the good assets.** (Different case: an
+  *existing, shipped* artifact is **audit-and-improve in place** — Scan → Diagnose → Fix, preserve
+  working code — not a gratuitous rewrite. Restart your wrong draft; improve a real site.)
 - **Recreated the proof.** → For before/after and good/bad comparisons, show the **real, uncompressed
   artifact** (the actual screenshot / original page), not a prettified re-creation. Remade "evidence" is
   no longer evidence; authenticity beats polish here. When the change is **code or text, show it as a
